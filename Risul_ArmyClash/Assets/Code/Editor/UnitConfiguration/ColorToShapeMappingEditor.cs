@@ -27,7 +27,7 @@ namespace Sources.Units.UnitConfiguration.Editor
             }
             if (GUILayout.Button("Load"))
             {
-                _target.GenerateMatrix();
+                _target.Load();
             }
             GUILayout.Space(20);
             EditorGUILayout.BeginVertical();
@@ -48,7 +48,7 @@ namespace Sources.Units.UnitConfiguration.Editor
 
             if (GUILayout.Button("Save"))
             {
-                _target.GenerateMatrix();
+                _target.Save();
             }
 
             serializedObject.ApplyModifiedProperties();

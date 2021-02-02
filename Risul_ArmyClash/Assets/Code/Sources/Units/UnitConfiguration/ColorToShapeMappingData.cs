@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Code.Sources.Constants;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Sources.Units.UnitConfiguration
@@ -51,12 +53,17 @@ namespace Sources.Units.UnitConfiguration
 
         public void Load()
         {
-            
+            var jsonString = File.ReadAllText(Constants.ColorMapJsonFilePath);
+            var listOfMap = JsonConvert.DeserializeObject<List<ColorToShapeMapModel>>(jsonString);
+            Debug.Log($"Loaded File{jsonString}");
         }
 
         public void Save()
         {
-
+            var jsonString = JsonConvert.SerializeObject(_colorToShapeMap, Formatting.Indented);
+            File.WriteAllText(Constants.ColorMapJsonFilePath,jsonString);
+            Debug.Log($"Saved File at {Constants.ColorMapJsonFilePath}");
+            Debug.Log($"{jsonString}");
         }
     }
 }

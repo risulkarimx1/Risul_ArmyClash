@@ -6,7 +6,10 @@ namespace Sources.Managers
     {
         public GameSceneManager(UnitFactory unitFacotory)
         {
-            unitFacotory.Create();
+            for (int i = 0; i < 10; i++)
+            {
+                unitFacotory.Create();
+            }
         }
     }
 }
