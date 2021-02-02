@@ -10,15 +10,13 @@ namespace Zenject
         readonly object _instance;
         readonly Type _instanceType;
         readonly DiContainer _container;
-        readonly Action<InjectContext, object> _instantiateCallback;
 
         public InstanceProvider(
-            Type instanceType, object instance, DiContainer container, Action<InjectContext, object> instantiateCallback)
+            Type instanceType, object instance, DiContainer container)
         {
             _instanceType = instanceType;
             _instance = instance;
             _container = container;
-            _instantiateCallback = instantiateCallback;
         }
 
         public bool IsCached
@@ -44,15 +42,7 @@ namespace Zenject
 
             Assert.That(_instanceType.DerivesFromOrEqual(context.MemberType));
 
-            injectAction = () =>
-            {
-                object instance = _container.LazyInject(_instance);
-
-                if (_instantiateCallback != null)
-                {
-                    _instantiateCallback(context, instance);
-                }
-            };
+            injectAction = () => _container.LazyInject(_instance);
 
             buffer.Add(_instance);
         }

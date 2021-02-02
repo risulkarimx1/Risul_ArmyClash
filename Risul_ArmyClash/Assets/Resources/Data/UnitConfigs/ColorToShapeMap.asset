@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbfdce63a4635fe499d009924c15c5fa, type: 3}
+  m_Name: ColorToShapeMap
+  m_EditorClassIdentifier: 
+  _unitConfigurationsData: {fileID: 11400000, guid: 5af256333a92ed14e95349a16043d141,
+    type: 2}
+  _colorToShape:
+  - _hp: 0
+    _atk: 10
+    colorColorModel: 0
+    _shapeType: 0
+  - _hp: 100
+    _atk: 0
+    colorColorModel: 1
+    _shapeType: 0
+  - _hp: 0
+    _atk: 30
+    colorColorModel: 2
+    _shapeType: 0
+  - _hp: 200
+    _atk: 0
+    colorColorModel: 3
+    _shapeType: 0
+  - _hp: 50
+    _atk: 0
+    colorColorModel: 0
+    _shapeType: 1
+  - _hp: 0
+    _atk: 20
+    colorColorModel: 1
+    _shapeType: 1
+  - _hp: 150
+    _atk: 0
+    colorColorModel: 2
+    _shapeType: 1
+  - _hp: 0
+    _atk: 40
+    colorColorModel: 3
+    _shapeType: 1

@@ -28,12 +28,5 @@ namespace Zenject.Internal
             hash = hash * 23 + BindingId.GetHashCode();
             return hash;
         }
-
-        public void Reset()
-        {
-            Provider = null;
-            BindingId.Type = null;
-            BindingId.Identifier = null;
-        }
     }
 }

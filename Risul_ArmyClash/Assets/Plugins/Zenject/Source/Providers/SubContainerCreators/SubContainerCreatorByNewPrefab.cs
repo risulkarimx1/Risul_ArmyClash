@@ -27,7 +27,7 @@ namespace Zenject
         {
             Assert.That(args.IsEmpty());
 
-            var prefab = _prefabProvider.GetPrefab(parentContext);
+            var prefab = _prefabProvider.GetPrefab();
 
             bool shouldMakeActive;
             var gameObject = _container.CreateAndParentPrefab(

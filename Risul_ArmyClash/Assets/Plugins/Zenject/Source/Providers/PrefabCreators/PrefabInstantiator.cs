@@ -53,9 +53,9 @@ namespace Zenject
             get { return _extraArguments; }
         }
 
-        public UnityEngine.Object GetPrefab(InjectContext context)
+        public UnityEngine.Object GetPrefab()
         {
-            return _prefabProvider.GetPrefab(context);
+            return _prefabProvider.GetPrefab();
         }
 
         public GameObject Instantiate(InjectContext context, List<TypeValuePair> args, out Action injectAction)
@@ -64,7 +64,7 @@ namespace Zenject
 
             bool shouldMakeActive;
             var gameObject = _container.CreateAndParentPrefab(
-                GetPrefab(context), _gameObjectBindInfo, context, out shouldMakeActive);
+                GetPrefab(), _gameObjectBindInfo, context, out shouldMakeActive);
             Assert.IsNotNull(gameObject);
 
             injectAction = () =>

@@ -75,7 +75,7 @@ namespace Zenject
         {
             Assert.That(!args.IsEmpty());
 
-            var prefab = _prefabProvider.GetPrefab(parentContext);
+            var prefab = _prefabProvider.GetPrefab();
             var tempContainer = CreateTempContainer(args);
 
             bool shouldMakeActive;

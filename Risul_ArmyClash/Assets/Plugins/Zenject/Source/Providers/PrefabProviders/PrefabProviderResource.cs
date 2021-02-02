@@ -15,7 +15,7 @@ namespace Zenject
             _resourcePath = resourcePath;
         }
 
-        public UnityEngine.Object GetPrefab(InjectContext context)
+        public UnityEngine.Object GetPrefab()
         {
             var prefab = (GameObject)Resources.Load(_resourcePath);
 

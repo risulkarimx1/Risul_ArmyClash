@@ -79,7 +79,7 @@ namespace Zenject
             BindingUtil.AssertInstanceDerivesFromOrEqual(instance, AllParentTypes);
 
             ProviderFunc =
-                (container) => new InstanceProvider(ContractType, instance, container, null);
+                (container) => new InstanceProvider(ContractType, instance, container);
 
             return this;
         }
