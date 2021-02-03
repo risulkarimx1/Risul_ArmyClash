@@ -13,14 +13,20 @@ namespace Assets.Code.Sources.Installers
     {
         public override void InstallBindings()
         {
+            // Settings from scriptable objects
             Container.Bind<ColorToShapeMappingData>().FromScriptableObjectResource(Constants.Constants.ColorToShapeMapPath).AsSingle();
             Container.Bind<UnitConfigurationsData>().FromScriptableObjectResource(Constants.Constants.UnitConfigurationDataPath).AsSingle();
             Container.Bind<GameSettings>().FromScriptableObjectResource(Constants.Constants.GameSettingsPath).AsSingle();
             
+            // computed configs objects
             Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
-            Container.Bind<GuildManager>().AsSingle();
             
+            // Unit Factory
             Container.BindFactory<UnitSide, IUnitController, UnitFactory>().FromFactory<RandomUnitGenerationFactory>();
+            
+            // Guild Systems
+            Container.Bind<GuildManager>().AsSingle();
+
             Container.BindInterfacesAndSelfTo<GameSceneManager>().AsSingle();
         }
     }
