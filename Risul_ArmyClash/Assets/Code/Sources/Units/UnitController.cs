@@ -1,5 +1,4 @@
-﻿using Assets.Code.Sources.Managers;
-using UniRx.Async;
+﻿using UniRx.Async;
 
 namespace Assets.Code.Sources.Units
 {
@@ -8,8 +7,8 @@ namespace Assets.Code.Sources.Units
         private UnitModel _unitModel;
         private readonly UnitView _unitView;
         private readonly UnitSide _unitSide;
+        
         public UnitSide UnitSide => _unitSide;
-
 
         public UnitController(UnitModel unitModel, UnitView unitView,UnitSide unitSide)
         {

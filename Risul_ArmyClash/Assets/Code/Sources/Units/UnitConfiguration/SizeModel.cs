@@ -16,5 +16,10 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
         public SizeType SizeType => _sizeType;
 
         public float SizeFactor => _sizeFactor;
+
+        public override string ToString()
+        {
+            return $"{_sizeType}";
+        }
     }
 }

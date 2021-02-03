@@ -18,5 +18,10 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
         public GameObject ShapeObject => _shapeObject;
         public ShapeType ShapeType => _shapeType;
         public MeshFilter MeshFilter => _shapeObject.GetComponent<MeshFilter>();
+
+        public override string ToString()
+        {
+            return $"{_shapeType}";
+        }
     }
 }

@@ -6,5 +6,6 @@ namespace Assets.Code.Sources.Units
     {
         UniTask Configure();
         void Configure(UnitModel unitModel);
+        UnitSide UnitSide { get; }
     }
 }

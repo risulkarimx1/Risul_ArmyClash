@@ -11,5 +11,10 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
         
         public Color Color => _color;
         public ColorType ColorType => _colorType;
+
+        public override string ToString()
+        {
+            return _colorType.ToString();
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Assets.Code.Sources.Units.UnitConfiguration;
 using UniRx;
 using UniRx.Async;
-using Zenject;
 
 namespace Assets.Code.Sources.Units
 {
@@ -45,6 +44,11 @@ namespace Assets.Code.Sources.Units
             var colorToShapeMap = await _colorToShapeMap.GetColorShapeMappedModelAsync(ShapeModel, ColorModel);
             _hp.Value = Hp.Value + ShapeModel.Hp + SizeModel.Hp + colorToShapeMap.Hp;
             _atk.Value = Atk.Value + ShapeModel.Atk + colorToShapeMap.Atk;
+        }
+
+        public override string ToString()
+        {
+            return $"{_colorModel}:{_shapeModel}:{_sizeModel}";
         }
     }
 }

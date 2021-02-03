@@ -1,33 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using Assets.Code.Sources.Guild;
 using Assets.Code.Sources.Units;
 using Assets.Code.Sources.Units.Factory;
-using Assets.Code.Sources.Units.UnitConfiguration;
 using UnityEngine;
 using Zenject;
 
 namespace Assets.Code.Sources.Managers
 {
-    public enum UnitSide { SideA, SideB}
     public class GameSceneManager: IInitializable, ITickable
     {
         private readonly UnitFactory _unitFactory;
-        private readonly IUnitConfigGenerator _configGenerator;
-        private List<IUnitController> unitControllers;
+        private readonly GuildManager _guildManager;
+        private readonly GameSettings _gameSettings;
 
 
-        public GameSceneManager(UnitFactory unitFactory, IUnitConfigGenerator configGenerator)
+        public GameSceneManager(UnitFactory unitFactory, GuildManager guildManager, GameSettings gameSettings)
         {
-            unitControllers = new List<IUnitController>();
             _unitFactory = unitFactory;
-            _configGenerator = configGenerator;
+            _guildManager = guildManager;
+            _gameSettings = gameSettings;
         }
 
         public void Initialize()
         {
-            for (int i = 0; i < 10; i++)
+            CreateGuilds();
+        }
+
+        private void CreateGuilds()
+        {
+            for (var i = 0; i < _gameSettings.GuildSizeA; i++)
             {
-                var unit =  _unitFactory.Create(UnitSide.SideA);
-                unitControllers.Add(unit);
+                var unit = _unitFactory.Create(UnitSide.SideA);
+                _guildManager.AddUnit(unit);
+            }
+
+            for (var i = 0; i < _gameSettings.GuildSizeB; i++)
+            {
+                var unit = _unitFactory.Create(UnitSide.SideB);
+                _guildManager.AddUnit(unit);
             }
         }
 
@@ -35,12 +44,11 @@ namespace Assets.Code.Sources.Managers
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
-                Debug.Log($"A pressed");
-                for (int i = 0; i < 10; i++)
-                {
-                    var model = _configGenerator.GetRandomModel();
-                    unitControllers[i].Configure(model);
-                }
+                _guildManager.ShuffleUnits(UnitSide.SideA);
+            }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                _guildManager.ShuffleUnits(UnitSide.SideB);
             }
         }
     }

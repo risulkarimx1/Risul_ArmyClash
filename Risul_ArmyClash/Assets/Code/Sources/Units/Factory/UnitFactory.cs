@@ -1,6 +1,4 @@
-﻿using Assets.Code.Sources.Managers;
-using UniRx.Async;
-using Zenject;
+﻿using Zenject;
 
 namespace Assets.Code.Sources.Units.Factory
 {

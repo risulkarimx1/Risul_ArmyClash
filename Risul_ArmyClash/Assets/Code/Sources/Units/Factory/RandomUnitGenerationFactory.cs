@@ -27,6 +27,7 @@ namespace Assets.Code.Sources.Units.Factory
 
             var unitModel = new UnitModel(randomConfig.Item1, randomConfig.Item2, randomConfig.Item3, _colorToShapeMap);
             var unitView = _container.InstantiateComponent<UnitView>(unitObject);
+            unitView.gameObject.name = $"{unitSide} - {unitModel}";
             var unitController = new UnitController(unitModel, unitView, unitSide);
 
             _container.Bind<UnitController>().FromInstance(unitController);
