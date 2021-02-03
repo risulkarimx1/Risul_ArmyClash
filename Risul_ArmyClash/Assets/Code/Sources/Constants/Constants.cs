@@ -7,7 +7,7 @@ namespace Assets.Code.Sources.Constants
     {
         public const string ColorToShapeMapPath = "Data/UnitConfigs/ColorToShapeMap";
         public const string UnitConfigurationDataPath = "Data/UnitConfigs/UnitConfigurationData";
-        public static string ColorMapJsonFilePath => Path.Combine(Application.dataPath, "ColorMap");
+        public static string ColorMapJsonFilePath => "ColorMap";
 
     }
 }

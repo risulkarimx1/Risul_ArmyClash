@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Code.Sources.Managers;
+using Assets.Code.Sources.Units;
 using Assets.Code.Sources.Units.UnitConfiguration;
 
 namespace Assets.Code.Sources.Guild

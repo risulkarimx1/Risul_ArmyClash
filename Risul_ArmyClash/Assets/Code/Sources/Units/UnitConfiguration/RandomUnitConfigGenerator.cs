@@ -5,24 +5,31 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
     public class RandomUnitConfigGenerator: IUnitConfigGenerator
     {
         private readonly UnitConfigurationsData _configData;
+        private readonly ColorToShapeMappingData _colorShapeMappingData;
 
-        public RandomUnitConfigGenerator(UnitConfigurationsData configData)
+        public RandomUnitConfigGenerator(UnitConfigurationsData configData, ColorToShapeMappingData colorShapeMappingData)
         {
             _configData = configData;
+            _colorShapeMappingData = colorShapeMappingData;
         }
 
-        private ColorModel GetRandomColor(UnitConfigurationsData configData) =>
-            configData.ColorModels[Random.Range(0, configData.ColorModels.Length)];
+        private ColorModel GetRandomColor =>
+            _configData.ColorModels[Random.Range(0, _configData.ColorModels.Length)];
 
-        private SizeModel GetRandomSize(UnitConfigurationsData configData) =>
-            configData.SizeModels[Random.Range(0, configData.SizeModels.Length)];
+        private SizeModel GetRandomSize =>
+            _configData.SizeModels[Random.Range(0, _configData.SizeModels.Length)];
 
-        private ShapeModel GetRandomShape(UnitConfigurationsData configData) =>
-            configData.ShapeModels[Random.Range(0, configData.ShapeModels.Length)];
+        private ShapeModel GetRandomShape =>
+            _configData.ShapeModels[Random.Range(0, _configData.ShapeModels.Length)];
 
         public (ColorModel, ShapeModel, SizeModel) GetConfig()
         {
-            return (GetRandomColor(_configData), GetRandomShape(_configData), GetRandomSize(_configData));
+            return (GetRandomColor, GetRandomShape, GetRandomSize);
+        }
+
+        public UnitModel GetRandomModel()
+        {
+            return new UnitModel(GetRandomColor, GetRandomShape, GetRandomSize, _colorShapeMappingData);
         }
     }
 }

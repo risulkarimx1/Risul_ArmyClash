@@ -3,5 +3,6 @@
     public interface IUnitConfigGenerator
     {
         (ColorModel, ShapeModel, SizeModel) GetConfig();
+        UnitModel GetRandomModel();
     }
 }

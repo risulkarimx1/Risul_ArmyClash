@@ -1,0 +1,50 @@
+[
+  {
+    "Hp": 100.0,
+    "Atk": 10.0,
+    "ColorType": 0,
+    "ShapeType": 0
+  },
+  {
+    "Hp": 5.0,
+    "Atk": 0.0,
+    "ColorType": 1,
+    "ShapeType": 0
+  },
+  {
+    "Hp": 0.0,
+    "Atk": 0.0,
+    "ColorType": 2,
+    "ShapeType": 0
+  },
+  {
+    "Hp": 0.0,
+    "Atk": 0.0,
+    "ColorType": 3,
+    "ShapeType": 0
+  },
+  {
+    "Hp": 676.0,
+    "Atk": 56.0,
+    "ColorType": 0,
+    "ShapeType": 1
+  },
+  {
+    "Hp": 0.0,
+    "Atk": 0.0,
+    "ColorType": 1,
+    "ShapeType": 1
+  },
+  {
+    "Hp": 778.0,
+    "Atk": 0.0,
+    "ColorType": 2,
+    "ShapeType": 1
+  },
+  {
+    "Hp": 656.0,
+    "Atk": 0.0,
+    "ColorType": 3,
+    "ShapeType": 1
+  }
+]

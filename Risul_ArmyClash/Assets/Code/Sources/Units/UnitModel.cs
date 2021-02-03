@@ -1,6 +1,7 @@
 ﻿using Assets.Code.Sources.Units.UnitConfiguration;
 using UniRx;
 using UniRx.Async;
+using Zenject;
 
 namespace Assets.Code.Sources.Units
 {
@@ -22,16 +23,18 @@ namespace Assets.Code.Sources.Units
 
     public class UnitModel : UnitBaseModel
     {
+        private readonly ColorModel _colorModel;
         private readonly ShapeModel _shapeModel;
         private readonly SizeModel _sizeModel;
         private readonly ColorToShapeMappingData _colorToShapeMap;
+        
+        public ColorModel ColorModel => _colorModel;
+        public ShapeModel ShapeModel => _shapeModel;
+        public SizeModel SizeModel => _sizeModel;
 
-        public ColorModel ColorModel { get; }
-
-        public UnitModel(ColorModel colorModel, ShapeModel shapeModel, SizeModel sizeModel,
-            ColorToShapeMappingData colorToShapeMap)
+        public UnitModel(ColorModel colorModel, ShapeModel shapeModel, SizeModel sizeModel, ColorToShapeMappingData colorToShapeMap)
         {
-            ColorModel = colorModel;
+            _colorModel = colorModel;
             _shapeModel = shapeModel;
             _sizeModel = sizeModel;
             _colorToShapeMap = colorToShapeMap;
@@ -39,9 +42,9 @@ namespace Assets.Code.Sources.Units
 
         public async UniTask Configure()
         {
-            var colorToShapeMap = await _colorToShapeMap.GetColorShapeMappedModelAsync(_shapeModel, ColorModel);
-            _hp.Value = Hp.Value + _shapeModel.Hp + _sizeModel.Hp + colorToShapeMap.Hp;
-            _atk.Value = Atk.Value + _shapeModel.Atk + colorToShapeMap.Atk;
+            var colorToShapeMap = await _colorToShapeMap.GetColorShapeMappedModelAsync(ShapeModel, ColorModel);
+            _hp.Value = Hp.Value + ShapeModel.Hp + SizeModel.Hp + colorToShapeMap.Hp;
+            _atk.Value = Atk.Value + ShapeModel.Atk + colorToShapeMap.Atk;
         }
     }
 }
