@@ -39,7 +39,7 @@ namespace Code.Sources.Units
 
         public async UniTask Configure()
         {
-            var colorToShapeMap = await _colorToShapeMap.GetColorShapeMappedModel(_shapeModel, ColorModel).ConfigureAwait(false);
+            var colorToShapeMap = await _colorToShapeMap.GetColorShapeMappedModelAsync(_shapeModel, ColorModel);
             _hp.Value = Hp.Value + _shapeModel.Hp + _sizeModel.Hp + colorToShapeMap.Hp;
             _atk.Value = Atk.Value + _shapeModel.Atk + colorToShapeMap.Atk;
         }

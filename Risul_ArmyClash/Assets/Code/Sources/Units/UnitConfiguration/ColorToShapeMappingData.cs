@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Code.Sources.Constants;
 using Newtonsoft.Json;
+using UniRx.Async;
 using UnityEngine;
 
 namespace Sources.Units.UnitConfiguration
@@ -38,19 +38,17 @@ namespace Sources.Units.UnitConfiguration
             }
         }
 
-        public async Task<ColorToShapeMapModel> GetColorShapeMappedModel(ShapeModel shapeModel, ColorModel colorModel)
+        public async UniTask<ColorToShapeMapModel> GetColorShapeMappedModelAsync(ShapeModel shapeModel, ColorModel colorModel)
         {
-            if (_colorToShapeMap == null)
-            {
-                await Load();
-            }
+            var dataPath = Constants.ColorMapJsonFilePath;
+            await LoadAsync(dataPath);
 
-            var mapModel = ColorToShapeMap
-                .FirstOrDefault(c => c.ShapeType == shapeModel.ShapeType
-                                     && c.ColorType == colorModel.ColorType);
+            var mapModel = ColorToShapeMap.FirstOrDefault(c => c.ShapeType == shapeModel.ShapeType && c.ColorType == colorModel.ColorType);
             if (mapModel == null)
-                Debug.LogError(
-                    $"No Mapping Found For this Combination. Generate the Matrix at {Constants.ColorToShapeMapPath}");
+            {
+                Debug.LogError($"No Mapping Found For this Combination. Generate the Matrix at {Constants.ColorToShapeMapPath}");
+            }
+            
             return mapModel;
         }
 
@@ -59,9 +57,9 @@ namespace Sources.Units.UnitConfiguration
             _unitConfigurationsData = Resources.Load<UnitConfigurationsData>(Constants.UnitConfigurationDataPath);
         }
 
-        public async Task Load()
+        public async UniTask LoadAsync(string path)
         {
-            using (var reader = File.OpenText(Constants.ColorMapJsonFilePath))
+            using (var reader = File.OpenText(path))
             {
                 var jsonText = await reader.ReadToEndAsync();
                 _colorToShapeMap = JsonConvert.DeserializeObject<List<ColorToShapeMapModel>>(jsonText);

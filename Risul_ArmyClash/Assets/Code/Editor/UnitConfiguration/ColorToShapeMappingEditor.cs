@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Code.Sources.Constants;
+using UnityEditor;
 using UnityEngine;
 
 namespace Sources.Units.UnitConfiguration.Editor
@@ -25,9 +26,10 @@ namespace Sources.Units.UnitConfiguration.Editor
             {
                 _target.GenerateMatrix();
             }
-            if (GUILayout.Button("Load"))
+            if (GUILayout.Button("LoadAsync"))
             {
-                _target.Load();
+                var path = Constants.ColorMapJsonFilePath;
+                _target.LoadAsync(path);
             }
             GUILayout.Space(20);
             EditorGUILayout.BeginVertical();
