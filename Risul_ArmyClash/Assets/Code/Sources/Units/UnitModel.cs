@@ -1,8 +1,8 @@
-﻿using Sources.Units.UnitConfiguration;
+﻿using Assets.Code.Sources.Units.UnitConfiguration;
 using UniRx;
 using UniRx.Async;
 
-namespace Code.Sources.Units
+namespace Assets.Code.Sources.Units
 {
     public class UnitBaseModel
     {

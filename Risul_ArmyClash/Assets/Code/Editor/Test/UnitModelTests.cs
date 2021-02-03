@@ -1,6 +1,7 @@
 using System.Linq;
-using Code.Sources.Constants;
-using Code.Sources.Units;
+using Assets.Code.Sources.Constants;
+using Assets.Code.Sources.Units;
+using Assets.Code.Sources.Units.UnitConfiguration;
 using NUnit.Framework;
 using Sources.Units.UnitConfiguration;
 using Zenject;

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace Code.Sources.Constants
+namespace Assets.Code.Sources.Constants
 {
     public static class Constants
     {

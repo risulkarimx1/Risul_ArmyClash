@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Sources.Units.UnitConfiguration
+namespace Assets.Code.Sources.Units.UnitConfiguration
 {
     public class RandomUnitConfigGenerator: IUnitConfigGenerator
     {

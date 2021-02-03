@@ -1,4 +1,4 @@
-﻿namespace Sources.Units.UnitConfiguration
+﻿namespace Assets.Code.Sources.Units.UnitConfiguration
 {
     public interface IUnitConfigGenerator
     {

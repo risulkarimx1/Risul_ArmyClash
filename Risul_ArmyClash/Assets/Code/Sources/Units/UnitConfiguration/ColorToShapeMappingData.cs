@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Code.Sources.Constants;
 using Newtonsoft.Json;
 using UniRx.Async;
 using UnityEngine;
 
-namespace Sources.Units.UnitConfiguration
+namespace Assets.Code.Sources.Units.UnitConfiguration
 {
     [CreateAssetMenu(fileName = "Color To Shape Map Data", menuName = "ArmyClash/Unit/Color Shape Mapping", order = 1)]
     public class ColorToShapeMappingData : ScriptableObject
@@ -40,13 +39,13 @@ namespace Sources.Units.UnitConfiguration
 
         public async UniTask<ColorToShapeMapModel> GetColorShapeMappedModelAsync(ShapeModel shapeModel, ColorModel colorModel)
         {
-            var dataPath = Constants.ColorMapJsonFilePath;
+            var dataPath = Constants.Constants.ColorMapJsonFilePath;
             await LoadAsync(dataPath);
 
             var mapModel = ColorToShapeMap.FirstOrDefault(c => c.ShapeType == shapeModel.ShapeType && c.ColorType == colorModel.ColorType);
             if (mapModel == null)
             {
-                Debug.LogError($"No Mapping Found For this Combination. Generate the Matrix at {Constants.ColorToShapeMapPath}");
+                Debug.LogError($"No Mapping Found For this Combination. Generate the Matrix at {Constants.Constants.ColorToShapeMapPath}");
             }
             
             return mapModel;
@@ -54,7 +53,7 @@ namespace Sources.Units.UnitConfiguration
 
         public void LoadConfigFromResources()
         {
-            _unitConfigurationsData = Resources.Load<UnitConfigurationsData>(Constants.UnitConfigurationDataPath);
+            _unitConfigurationsData = Resources.Load<UnitConfigurationsData>(Constants.Constants.UnitConfigurationDataPath);
         }
 
         public async UniTask LoadAsync(string path)
@@ -69,8 +68,8 @@ namespace Sources.Units.UnitConfiguration
         public void Save()
         {
             var jsonString = JsonConvert.SerializeObject(_colorToShapeMap, Formatting.Indented);
-            File.WriteAllText(Constants.ColorMapJsonFilePath, jsonString);
-            Debug.Log($"Saved File at {Constants.ColorMapJsonFilePath}");
+            File.WriteAllText(Constants.Constants.ColorMapJsonFilePath, jsonString);
+            Debug.Log($"Saved File at {Constants.Constants.ColorMapJsonFilePath}");
             Debug.Log($"{jsonString}");
         }
     }

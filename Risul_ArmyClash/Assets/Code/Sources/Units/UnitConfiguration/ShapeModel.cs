@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Sources.Units.UnitConfiguration
+namespace Assets.Code.Sources.Units.UnitConfiguration
 {
     [Serializable]
     public class ShapeModel

@@ -1,8 +1,9 @@
-﻿using Code.Sources.Units;
+﻿using Assets.Code.Sources.Units.Factory;
 using Zenject;
 
-namespace Sources.Managers
+namespace Assets.Code.Sources.Managers
 {
+    public enum UnitSide { SideA, SideB}
     public class GameSceneManager: IInitializable
     {
         private readonly UnitFactory _unitFactory;
@@ -16,7 +17,7 @@ namespace Sources.Managers
         {
             for (int i = 0; i < 10; i++)
             {
-                _unitFactory.Create();
+                _unitFactory.Create(UnitSide.SideA);
             }
         }
     }
