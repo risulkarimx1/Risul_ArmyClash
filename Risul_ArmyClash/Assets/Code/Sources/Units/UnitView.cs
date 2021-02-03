@@ -1,45 +1,36 @@
-﻿using System;
-using Sources.Units.UnitConfiguration;
+﻿using Sources.Units.UnitConfiguration;
+using UniRx.Async;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace Code.Sources.Units
-{ 
-    public class UnitFactory : PlaceholderFactory<IUnitView> { }
+{
+    public class UnitFactory : PlaceholderFactory<UniTask<IUnitView>> { }
     
-    public class RandomUnitGenerationFactory : IFactory<IUnitView>
+    public class RandomUnitGenerationFactory : IFactory<UniTask<IUnitView>>
     {
-        private readonly UnitConfigurationsData _configData;
-        private readonly ColorToShapeMappingData _colorToShapeMap;
-        
         private readonly DiContainer _container;
+        private readonly IUnitConfigGenerator _unitConfigGenerator;
+        private readonly ColorToShapeMappingData _colorToShapeMap;
 
-        public RandomUnitGenerationFactory(DiContainer container, UnitConfigurationsData configData, ColorToShapeMappingData colorToShapeMap)
+        public RandomUnitGenerationFactory(DiContainer container, IUnitConfigGenerator unitConfigGenerator, ColorToShapeMappingData colorToShapeMap)
         {
             _container = container;
-            _configData = configData;
+            _unitConfigGenerator = unitConfigGenerator;
             _colorToShapeMap = colorToShapeMap;
         }
 
-        private ColorModel GetRandomColor(UnitConfigurationsData configData) =>
-            configData.ColorModels[Random.Range(0, configData.ColorModels.Length)];
+        
 
-        private SizeModel GetRandomSize(UnitConfigurationsData configData) =>
-            configData.SizeModels[Random.Range(0, configData.SizeModels.Length)];
-
-        private ShapeModel GetRandomShape(UnitConfigurationsData configData) =>
-            configData.ShapeModels[Random.Range(0, configData.ShapeModels.Length)];
-
-        public IUnitView Create()
+        public async UniTask<IUnitView> Create()
         {
-            var colorModel = GetRandomColor(_configData);
-            var sizeModel = GetRandomSize(_configData);
-            var shapeModel = GetRandomShape(_configData);
-            var unitModel = new UnitModel(colorModel, shapeModel, sizeModel, _colorToShapeMap);
-            var unitObject = _container.InstantiatePrefab(shapeModel.ShapeObject);
-            var unitView = unitObject.AddComponent<UnitViewView>();
-            unitView.AssignModel(unitModel);
+            var randomConfig = _unitConfigGenerator.GetConfig();
+            var unitModel = new UnitModel(randomConfig.Item1, randomConfig.Item2, randomConfig.Item3, _colorToShapeMap);
+            await unitModel.Configure();
+
+            var unitObject = _container.InstantiatePrefab(randomConfig.Item2.ShapeObject);
+            var unitView = _container.InstantiateComponent<UnitView>(unitObject);
+            unitView.Configure(unitModel);
             return unitView;
         }
     }
@@ -47,20 +38,20 @@ namespace Code.Sources.Units
     public interface IUnitView
     {
     }
-    public class UnitViewView : MonoBehaviour, IUnitView
+    public class UnitView : MonoBehaviour, IUnitView
     {
         private readonly UnitModel _unitModel;
         private Renderer _renderer;
         private static readonly int Color = Shader.PropertyToID("_Color");
+
 
         private void Awake()
         {
             _renderer = GetComponent<Renderer>();
         }
         
-        public void AssignModel(UnitModel unitModel)
+        public void Configure(UnitModel unitModel)
         {
-            Debug.Log($"Unit model {unitModel.Hp} and {unitModel.Atk}");
             _renderer.material.SetColor(Color, unitModel.ColorModel.Color);
         }
     }

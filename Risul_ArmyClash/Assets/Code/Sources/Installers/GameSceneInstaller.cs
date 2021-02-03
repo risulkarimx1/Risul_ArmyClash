@@ -2,6 +2,7 @@ using Code.Sources.Constants;
 using Code.Sources.Units;
 using Sources.Managers;
 using Sources.Units.UnitConfiguration;
+using UniRx.Async;
 using UnityEngine;
 using Zenject;
 
@@ -14,11 +15,9 @@ namespace Sources.Installers
         {
             Container.Bind<ColorToShapeMappingData>().FromScriptableObjectResource(Constants.ColorToShapeMapPath).AsSingle();
             Container.Bind<UnitConfigurationsData>().FromScriptableObjectResource(Constants.UnitConfigurationDataPath).AsSingle();
-            Container.BindFactory<IUnitView, UnitFactory>().FromFactory<RandomUnitGenerationFactory>();
-            Container.Bind<GameSceneManager>().AsSingle();
-
-            var gc = Container.Resolve<GameSceneManager>();
-            Debug.Log($"gc");
+            Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
+            Container.BindFactory<UniTask<IUnitView>, UnitFactory>().FromFactory<RandomUnitGenerationFactory>();
+            Container.BindInterfacesAndSelfTo<GameSceneManager>().AsSingle();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Code.Sources.Constants;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace Sources.Units.UnitConfiguration
         {
             LoadConfigFromResources();
             ColorToShapeMap.Clear();
-            
+
             foreach (var shapeModel in _unitConfigurationsData.ShapeModels)
             {
                 foreach (var colorModel in _unitConfigurationsData.ColorModels)
@@ -37,12 +38,19 @@ namespace Sources.Units.UnitConfiguration
             }
         }
 
-        public ColorToShapeMapModel GetColorShapeMappedModel(ShapeModel shapeModel, ColorModel colorModel)
+        public async Task<ColorToShapeMapModel> GetColorShapeMappedModel(ShapeModel shapeModel, ColorModel colorModel)
         {
+            if (_colorToShapeMap == null)
+            {
+                await Load();
+            }
+
             var mapModel = ColorToShapeMap
-                .FirstOrDefault(c => c.ShapeType == shapeModel.ShapeType 
+                .FirstOrDefault(c => c.ShapeType == shapeModel.ShapeType
                                      && c.ColorType == colorModel.ColorType);
-            if (mapModel == null) Debug.Log($"NO map model found");
+            if (mapModel == null)
+                Debug.LogError(
+                    $"No Mapping Found For this Combination. Generate the Matrix at {Constants.ColorToShapeMapPath}");
             return mapModel;
         }
 
@@ -51,17 +59,19 @@ namespace Sources.Units.UnitConfiguration
             _unitConfigurationsData = Resources.Load<UnitConfigurationsData>(Constants.UnitConfigurationDataPath);
         }
 
-        public void Load()
+        public async Task Load()
         {
-            var jsonString = File.ReadAllText(Constants.ColorMapJsonFilePath);
-            var listOfMap = JsonConvert.DeserializeObject<List<ColorToShapeMapModel>>(jsonString);
-            Debug.Log($"Loaded File{jsonString}");
+            using (var reader = File.OpenText(Constants.ColorMapJsonFilePath))
+            {
+                var jsonText = await reader.ReadToEndAsync();
+                _colorToShapeMap = JsonConvert.DeserializeObject<List<ColorToShapeMapModel>>(jsonText);
+            }
         }
 
         public void Save()
         {
             var jsonString = JsonConvert.SerializeObject(_colorToShapeMap, Formatting.Indented);
-            File.WriteAllText(Constants.ColorMapJsonFilePath,jsonString);
+            File.WriteAllText(Constants.ColorMapJsonFilePath, jsonString);
             Debug.Log($"Saved File at {Constants.ColorMapJsonFilePath}");
             Debug.Log($"{jsonString}");
         }

@@ -1,5 +1,6 @@
 ﻿using Sources.Units.UnitConfiguration;
 using UniRx;
+using UniRx.Async;
 
 namespace Code.Sources.Units
 {
@@ -34,15 +35,13 @@ namespace Code.Sources.Units
             _shapeModel = shapeModel;
             _sizeModel = sizeModel;
             _colorToShapeMap = colorToShapeMap;
-
-            CalculateProperties();
         }
 
-        private void CalculateProperties()
+        public async UniTask Configure()
         {
-            var colorToShapeMap = _colorToShapeMap.GetColorShapeMappedModel(_shapeModel, ColorModel);
-            Hp.Value = Hp.Value + _shapeModel.Hp + _sizeModel.Hp + colorToShapeMap.Hp;
-            Atk.Value = Atk.Value + _shapeModel.Atk + _sizeModel.Atk + colorToShapeMap.Atk;
+            var colorToShapeMap = await _colorToShapeMap.GetColorShapeMappedModel(_shapeModel, ColorModel).ConfigureAwait(false);
+            _hp.Value = Hp.Value + _shapeModel.Hp + _sizeModel.Hp + colorToShapeMap.Hp;
+            _atk.Value = Atk.Value + _shapeModel.Atk + colorToShapeMap.Atk;
         }
     }
 }

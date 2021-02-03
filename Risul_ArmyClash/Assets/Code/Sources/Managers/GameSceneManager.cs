@@ -1,14 +1,22 @@
 ﻿using Code.Sources.Units;
+using Zenject;
 
 namespace Sources.Managers
 {
-    public class GameSceneManager
+    public class GameSceneManager: IInitializable
     {
-        public GameSceneManager(UnitFactory unitFacotory)
+        private readonly UnitFactory _unitFactory;
+
+        public GameSceneManager(UnitFactory unitFactory)
+        {
+            _unitFactory = unitFactory;
+        }
+
+        public void Initialize()
         {
             for (int i = 0; i < 10; i++)
             {
-                unitFacotory.Create();
+                _unitFactory.Create();
             }
         }
     }
