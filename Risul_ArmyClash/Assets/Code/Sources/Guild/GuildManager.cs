@@ -11,14 +11,16 @@ namespace Assets.Code.Sources.Guild
         private readonly IUnitConfigGenerator _unitConfigGenerator;
         private readonly GameSettings _gameSettings;
         private readonly UnitFactory _unitFactory;
+        private readonly GuildPositionController _guildPositionController;
         private readonly List<IUnitController> _unitSideA;
         private readonly List<IUnitController> _unitSideB;
 
-        public GuildManager(IUnitConfigGenerator unitConfigGenerator, GameSettings gameSettings, UnitFactory unitFactory)
+        public GuildManager(IUnitConfigGenerator unitConfigGenerator, GameSettings gameSettings, UnitFactory unitFactory, GuildPositionController guildPositionController)
         {
             _unitConfigGenerator = unitConfigGenerator;
             _gameSettings = gameSettings;
             _unitFactory = unitFactory;
+            _guildPositionController = guildPositionController;
             _unitSideA = new List<IUnitController>();
             _unitSideB = new List<IUnitController>();
         }
@@ -57,18 +59,42 @@ namespace Assets.Code.Sources.Guild
             }
         }
 
+        public void ShufflePositions(UnitSide unitSide)
+        {
+            switch (unitSide)
+            {
+                case UnitSide.SideA:
+                    _unitSideA.ForEach(unit =>
+                    {
+                        unit.SetPosition(_guildPositionController.GetRandomPosition(unitSide));
+                    });
+                    break;
+                case UnitSide.SideB:
+                    _unitSideB.ForEach(unit =>
+                    {
+                        unit.SetPosition(_guildPositionController.GetRandomPosition(unitSide));
+                    });
+                    break;
+            }
+        }
+
         public void CreateGuilds()
         {
+            void SetPosition(UnitSide unitSide)
+            {
+                var unit = _unitFactory.Create(unitSide);
+                unit.SetPosition(_guildPositionController.GetRandomPosition(unitSide));
+                AddUnit(unit);
+            }
+
             for (var i = 0; i < _gameSettings.GuildSizeA; i++)
             {
-                var unit = _unitFactory.Create(UnitSide.SideA);
-                AddUnit(unit);
+                SetPosition(UnitSide.SideA);
             }
 
             for (var i = 0; i < _gameSettings.GuildSizeB; i++)
             {
-                var unit = _unitFactory.Create(UnitSide.SideB);
-                AddUnit(unit);
+                SetPosition(UnitSide.SideB);
             }
         }
     }

@@ -32,6 +32,15 @@ namespace Assets.Code.Sources.Managers
             {
                 _guildManager.ShuffleUnits(UnitSide.SideB);
             }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                _guildManager.ShufflePositions(UnitSide.SideA);
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                _guildManager.ShufflePositions(UnitSide.SideB);
+            }
         }
     }
 }

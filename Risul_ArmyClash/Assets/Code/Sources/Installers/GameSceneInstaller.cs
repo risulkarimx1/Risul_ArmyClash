@@ -25,6 +25,7 @@ namespace Assets.Code.Sources.Installers
             Container.BindFactory<UnitSide, IUnitController, UnitFactory>().FromFactory<RandomUnitGenerationFactory>();
             
             // Guild Systems
+            Container.Bind<GuildPositionController>().AsSingle();
             Container.Bind<GuildManager>().AsSingle();
 
             Container.BindInterfacesAndSelfTo<GameSceneManager>().AsSingle();

@@ -12,5 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43fa0e13bede4bd0abe2b86bb5b6bc31, type: 3}
   m_Name: Game Settings
   m_EditorClassIdentifier: 
-  _guildSizeA: 20
+  _guildSizeA: 10
   _guildSizeB: 10
+  _guildPositionA:
+    _center: {x: 0, y: 0, z: -15}
+    _width: 10
+    _length: 10
+  _guildPositionB:
+    _center: {x: 0, y: 0, z: 15}
+    _width: 10
+    _length: 10

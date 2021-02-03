@@ -1,4 +1,5 @@
 ﻿using UniRx.Async;
+using UnityEngine;
 
 namespace Assets.Code.Sources.Units
 {
@@ -7,5 +8,6 @@ namespace Assets.Code.Sources.Units
         UniTask Configure();
         void Configure(UnitModel unitModel);
         UnitSide UnitSide { get; }
+        void SetPosition(Vector3 position);
     }
 }

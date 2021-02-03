@@ -24,5 +24,7 @@ namespace Assets.Code.Sources.Units
             _renderer.material.SetColor(Color, unitModel.ColorModel.Color);
             _transform.localScale = Vector3.one * unitModel.SizeModel.SizeFactor;
         }
+
+        public void SetPosition(Vector3 position) => _transform.position = position;
     }
 }
