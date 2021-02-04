@@ -15,10 +15,10 @@ MonoBehaviour:
   _guildSizeA: 10
   _guildSizeB: 10
   _guildPositionA:
-    _center: {x: 0, y: 0, z: -15}
+    _center: {x: 0, y: 1, z: -15}
     _width: 10
     _length: 10
   _guildPositionB:
-    _center: {x: 0, y: 0, z: 15}
+    _center: {x: 0, y: 1, z: 15}
     _width: 10
     _length: 10

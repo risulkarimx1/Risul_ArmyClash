@@ -1,3 +1,4 @@
+using Assets.Code.Sources.GameSceneUi;
 using Assets.Code.Sources.Guild;
 using Assets.Code.Sources.Managers;
 using Assets.Code.Sources.Units;
@@ -11,6 +12,8 @@ namespace Assets.Code.Sources.Installers
     [CreateAssetMenu(fileName = "GameSceneInstaller", menuName = "Installers/GameSceneInstaller")]
     public class GameSceneInstaller : ScriptableObjectInstaller<GameSceneInstaller>
     {
+        [SerializeField] private GameSceneUiView _gameSceneUiView;
+        
         public override void InstallBindings()
         {
             // Settings from scriptable objects
@@ -28,6 +31,11 @@ namespace Assets.Code.Sources.Installers
             Container.Bind<GuildPositionController>().AsSingle();
             Container.Bind<GuildManager>().AsSingle();
 
+            // Ui Bindings
+            Container.Bind<GameSceneUiView>().FromComponentInNewPrefab(_gameSceneUiView).AsSingle().NonLazy();
+            Container.Bind<GameSceneUiController>().AsSingle().NonLazy();
+            
+            // Game Scene Manager
             Container.BindInterfacesAndSelfTo<GameSceneManager>().AsSingle();
         }
     }

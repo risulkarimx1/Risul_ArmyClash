@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fa57de115f74244388db58808f91df6, type: 3}
-  m_Name: GameSceneInstaller
+  m_Script: {fileID: 11500000, guid: 2666bc2c462fb574d9f1e0e84160c4c9, type: 3}
+  m_Name: MenuSceneInstaller
   m_EditorClassIdentifier: 
-  _gameSceneUiView: {fileID: 2146235812121156905, guid: 1d6bc6117bf7f654fa51085aaa27ac50,
+  _mainMenuView: {fileID: 4008604000667220237, guid: bd60d8bf81ce983479ec8f9506cec71f,
     type: 3}
