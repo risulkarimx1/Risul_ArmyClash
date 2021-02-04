@@ -164,5 +164,13 @@ namespace Assets.Code.Sources.Guild
             else
                 return GuildBList.Select(unit => unit.Transform).ToArray();
         }
+
+        public float[] GetUnitSize(UnitSide unitSide)
+        {
+            if (unitSide == UnitSide.SideA)
+                return GuildAList.Select(unit => unit.Size).ToArray();
+            else
+                return GuildBList.Select(unit => unit.Size).ToArray();
+        }
     }
 }

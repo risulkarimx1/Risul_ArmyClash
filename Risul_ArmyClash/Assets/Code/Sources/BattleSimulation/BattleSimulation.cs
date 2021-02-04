@@ -68,8 +68,13 @@ namespace Assets.Code.Sources.BattleSimulation
                 _guildManager.GetGuildPositions(UnitSide.SideA),
                 _guildManager.GetGuildPositions(UnitSide.SideB));
 
-            _proximalMovement.MovementToNearest(_guildManager.GetUnitTransforms(UnitSide.SideA), nearestPos.closeToA);
-            _proximalMovement.MovementToNearest(_guildManager.GetUnitTransforms(UnitSide.SideB), nearestPos.closeToB);
+            _proximalMovement.MovementToNearest(
+                _guildManager.GetUnitTransforms(UnitSide.SideA),
+                nearestPos.closeToA, _guildManager.GetUnitSize(UnitSide.SideA));
+            _proximalMovement.MovementToNearest(
+                _guildManager.GetUnitTransforms(UnitSide.SideB), 
+                nearestPos.closeToB, 
+                _guildManager.GetUnitSize(UnitSide.SideA));
 
             // var guildATarget = nearestPos.closeToA;
             // for (int i = 0; i < _guildManager.GuildAList.Count; i++)

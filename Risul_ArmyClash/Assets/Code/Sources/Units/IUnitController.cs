@@ -11,5 +11,6 @@ namespace Assets.Code.Sources.Units
         void KillUnit();
         bool IsAlive { get; }
         Transform Transform { get; }
+        float Size { get; }
     }
 }

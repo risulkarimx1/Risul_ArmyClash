@@ -13,6 +13,7 @@ namespace Assets.Code.Sources.Units
 
         public bool IsAlive => _isAlive;
         public Transform Transform => _unitView.Transform;
+        public float Size => _unitModel.SizeModel.SizeFactor;
 
         private bool _isAlive;
 
