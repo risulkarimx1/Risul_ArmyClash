@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Code.Sources.Managers;
 using Assets.Code.Sources.Signals;
 using Assets.Code.Sources.Units;
 using Assets.Code.Sources.Units.Factory;
 using Assets.Code.Sources.Units.UnitConfiguration;
+using Unity.Mathematics;
 using Zenject;
 
 namespace Assets.Code.Sources.Guild
@@ -17,8 +19,8 @@ namespace Assets.Code.Sources.Guild
         private readonly UnitFactory _unitFactory;
         private readonly GuildPositionController _guildPositionController;
         private readonly SignalBus _signalBus;
-        private readonly List<IUnitController> _unitSideA;
-        private readonly List<IUnitController> _unitSideB;
+        private readonly List<IUnitController> _guildAList;
+        private readonly List<IUnitController> _guildBList;
 
         public GuildManager(IUnitConfigGenerator unitConfigGenerator,
             GameSettings gameSettings,
@@ -31,8 +33,8 @@ namespace Assets.Code.Sources.Guild
             _unitFactory = unitFactory;
             _guildPositionController = guildPositionController;
             _signalBus = signalBus;
-            _unitSideA = new List<IUnitController>();
-            _unitSideB = new List<IUnitController>();
+            _guildAList = new List<IUnitController>();
+            _guildBList = new List<IUnitController>();
             _signalBus.Subscribe<UnitShuffleSignal>(OnUnitShuffled);
         }
 
@@ -49,65 +51,12 @@ namespace Assets.Code.Sources.Guild
             }
         }
 
-        public void AddUnit(IUnitController unitController)
-        {
-            switch (unitController.UnitSide)
-            {
-                case UnitSide.SideA:
-                    _unitSideA.Add(unitController);
-                    break;
-                case UnitSide.SideB:
-                    _unitSideB.Add(unitController);
-                    break;
-            }
-        }
-
-        private void ShuffleUnits(UnitSide unitSide)
-        {
-            switch (unitSide)
-            {
-                case UnitSide.SideA:
-                    _unitSideA.ForEach(unit =>
-                    {
-                        var randomModel = _unitConfigGenerator.GetRandomModel();
-                        unit.Configure(randomModel);
-                    });
-                    break;
-                case UnitSide.SideB:
-                    _unitSideB.ForEach(unit =>
-                    {
-                        var randomModel = _unitConfigGenerator.GetRandomModel();
-                        unit.Configure(randomModel);
-                    });
-                    break;
-            }
-        }
-
-        private void ShufflePositions(UnitSide unitSide)
-        {
-            switch (unitSide)
-            {
-                case UnitSide.SideA:
-                    _unitSideA.ForEach(unit =>
-                    {
-                        unit.SetPosition(_guildPositionController.GetRandomPosition(unitSide));
-                    });
-                    break;
-                case UnitSide.SideB:
-                    _unitSideB.ForEach(unit =>
-                    {
-                        unit.SetPosition(_guildPositionController.GetRandomPosition(unitSide));
-                    });
-                    break;
-            }
-        }
-
         public void CreateGuilds()
         {
             void SetPosition(UnitSide unitSide)
             {
                 var unit = _unitFactory.Create(unitSide);
-                unit.SetPosition(_guildPositionController.GetRandomPosition(unitSide));
+                unit. Position = _guildPositionController.GetRandomPosition(unitSide);
                 AddUnit(unit);
             }
 
@@ -122,9 +71,92 @@ namespace Assets.Code.Sources.Guild
             }
         }
 
+        private void AddUnit(IUnitController unitController)
+        {
+            switch (unitController.UnitSide)
+            {
+                case UnitSide.SideA:
+                    _guildAList.Add(unitController);
+                    break;
+                case UnitSide.SideB:
+                    _guildBList.Add(unitController);
+                    break;
+            }
+        }
+
+        private void RemoveUnit(IUnitController unitController)
+        {
+            switch (unitController.UnitSide)
+            {
+                case UnitSide.SideA:
+                    _guildAList.Remove(unitController);
+                    break;
+                case UnitSide.SideB:
+                    _guildBList.Remove(unitController);
+                    break;
+            }
+        }
+
+        private void ShuffleUnits(UnitSide unitSide)
+        {
+            switch (unitSide)
+            {
+                case UnitSide.SideA:
+                    _guildAList.ForEach(unit =>
+                    {
+                        var randomModel = _unitConfigGenerator.GetRandomModel();
+                        unit.Configure(randomModel);
+                    });
+                    break;
+                case UnitSide.SideB:
+                    _guildBList.ForEach(unit =>
+                    {
+                        var randomModel = _unitConfigGenerator.GetRandomModel();
+                        unit.Configure(randomModel);
+                    });
+                    break;
+            }
+        }
+
+        private void ShufflePositions(UnitSide unitSide)
+        {
+            switch (unitSide)
+            {
+                case UnitSide.SideA:
+                    _guildAList.ForEach(unit =>
+                    {
+                        unit.Position= _guildPositionController.GetRandomPosition(unitSide);
+                    });
+                    break;
+                case UnitSide.SideB:
+                    _guildBList.ForEach(unit =>
+                    {
+                        unit.Position =(_guildPositionController.GetRandomPosition(unitSide));
+                    });
+                    break;
+            }
+        }
+
         public void Dispose()
         {
             _signalBus.Unsubscribe<UnitShuffleSignal>(OnUnitShuffled);
         }
+
+        public List<float3> GetGuildPositions(UnitSide unitSide)
+        {
+            var positions = new List<float3>();
+            switch (unitSide)
+            {
+                case UnitSide.SideA:
+                    positions = _guildAList.Select(unit => unit.Position).ToList();
+                    break;
+                case UnitSide.SideB:
+                    positions = _guildBList.Select(unit => unit.Position).ToList();
+                    break;
+            }
+            
+            return positions;
+        }
+        
     }
 }

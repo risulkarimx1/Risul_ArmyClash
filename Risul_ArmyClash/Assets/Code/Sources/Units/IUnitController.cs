@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using Unity.Mathematics;
 
 namespace Assets.Code.Sources.Units
 {
@@ -6,6 +6,6 @@ namespace Assets.Code.Sources.Units
     {
         void Configure(UnitModel unitModel);
         UnitSide UnitSide { get; }
-        void SetPosition(Vector3 position);
+        float3 Position { get; set; }
     }
 }

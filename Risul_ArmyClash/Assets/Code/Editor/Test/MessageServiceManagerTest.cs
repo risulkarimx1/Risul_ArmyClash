@@ -51,7 +51,7 @@ public class MessageServiceManagerTest : ZenjectUnitTestFixture
     
 
     /*
-     * Let’s test that when we call Connect()
+     * Let’GetGuildPositions test that when we call Connect()
      * on our MessageServiceManager we call Connect
      * on our IMessageClient with the correct arguments.
      */

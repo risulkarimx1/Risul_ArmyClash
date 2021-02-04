@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using Unity.Mathematics;
 
 namespace Assets.Code.Sources.Units
 {
@@ -10,6 +10,10 @@ namespace Assets.Code.Sources.Units
         
         public UnitSide UnitSide => _unitSide;
 
+        public bool IsAlive => _isAlive;
+
+        private bool _isAlive;
+
         public UnitController(UnitModel unitModel, UnitView unitView,UnitSide unitSide)
         {
             _unitModel = unitModel;
@@ -17,8 +21,9 @@ namespace Assets.Code.Sources.Units
             _unitSide = unitSide;
             _unitModel.Configure();
             _unitView.Configure(_unitModel);
+            _isAlive = true;
         }
-        
+
 
         public void Configure(UnitModel unitModel)
         {
@@ -27,6 +32,16 @@ namespace Assets.Code.Sources.Units
             _unitView.Configure(_unitModel);
         }
 
-        public void SetPosition(Vector3 position) => _unitView.SetPosition(position);
+        public float3 Position
+        {
+            get => _unitView.Position;
+            set => _unitView.Position = value;
+        }
+
+        public void KillUnit()
+        {
+            _isAlive = false;
+            _unitView.SetActive(false);
+        }
     }
 }

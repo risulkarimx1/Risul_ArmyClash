@@ -1,6 +1,5 @@
 ﻿using Assets.Code.Sources.Units.UnitConfiguration;
 using UniRx;
-using UniRx.Async;
 
 namespace Assets.Code.Sources.Units
 {

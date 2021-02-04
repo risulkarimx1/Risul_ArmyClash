@@ -1,3 +1,4 @@
+using Assets.Code.Sources.BattleSimulation;
 using Assets.Code.Sources.GameSceneUi;
 using Assets.Code.Sources.GameStateMachine;
 using Assets.Code.Sources.Guild;
@@ -47,6 +48,9 @@ namespace Assets.Code.Sources.Installers
             // Ui Bindings
             Container.Bind<GameSceneUiView>().FromComponentInNewPrefab(_gameSceneUiView).AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<GameSceneUiController>().AsSingle().NonLazy();
+            
+            // Battle Simulation
+            Container.BindInterfacesAndSelfTo<BattleSimulationManager>().AsSingle();
             
             // Game Scene Manager
             Container.BindInterfacesAndSelfTo<GameSceneManager>().AsSingle();

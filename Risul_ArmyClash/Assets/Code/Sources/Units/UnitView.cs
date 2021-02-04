@@ -25,6 +25,13 @@ namespace Assets.Code.Sources.Units
             _transform.localScale = Vector3.one * unitModel.SizeModel.SizeFactor;
         }
 
-        public void SetPosition(Vector3 position) => _transform.position = position;
+        public Vector3 Position
+        {
+            get => _transform.position;
+            set => _transform.position = value;
+        }
+        
+        public void SetActive(bool state) => gameObject.SetActive(state);
+        
     }
 }
