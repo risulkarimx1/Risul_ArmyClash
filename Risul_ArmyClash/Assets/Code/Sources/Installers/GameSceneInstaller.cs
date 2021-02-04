@@ -19,19 +19,10 @@ namespace Assets.Code.Sources.Installers
         
         public override void InstallBindings()
         {
-            // Disposible
-            
             // Install Signal
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<GameStateChangeSignal>();
             Container.DeclareSignal<UnitShuffleSignal>();
-            
-            // Settings from scriptable objects
-            Container.Bind<ColorToShapeMappingData>().FromScriptableObjectResource(Constants.Constants.ColorToShapeMapPath).AsSingle();
-            Container.Bind<UnitConfigurationsData>().FromScriptableObjectResource(Constants.Constants.UnitConfigurationDataPath).AsSingle();
-            Container.Bind<GameSettings>().FromScriptableObjectResource(Constants.Constants.GameSettingsPath).AsSingle();
-
-            Container.BindInterfacesAndSelfTo<UnitColorToShapeDataAccess>().AsSingle().NonLazy();
             
             // computed configs objects
             Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
