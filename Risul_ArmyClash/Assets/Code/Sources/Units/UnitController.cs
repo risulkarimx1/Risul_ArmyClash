@@ -1,5 +1,4 @@
-﻿using UniRx.Async;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Code.Sources.Units
 {
@@ -16,19 +15,15 @@ namespace Assets.Code.Sources.Units
             _unitModel = unitModel;
             _unitView = unitView;
             _unitSide = unitSide;
-            _ = UniTask.Run(Configure);
+            _unitModel.Configure();
             _unitView.Configure(_unitModel);
         }
-
-        public UniTask Configure()
-        {
-            return _unitModel.Configure();
-        }
+        
 
         public void Configure(UnitModel unitModel)
         {
             _unitModel = unitModel;
-            _ = UniTask.Run(Configure);
+            _unitModel.Configure();
             _unitView.Configure(_unitModel);
         }
 

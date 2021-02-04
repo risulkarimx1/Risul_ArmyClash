@@ -37,11 +37,8 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
             }
         }
 
-        public async UniTask<ColorToShapeMapModel> GetColorShapeMappedModelAsync(ShapeModel shapeModel, ColorModel colorModel)
+        public ColorToShapeMapModel GetColorShapeMappedModel(ShapeModel shapeModel, ColorModel colorModel)
         {
-            var dataPath = Constants.Constants.ColorMapJsonFilePath;
-            await LoadAsync(dataPath);
-
             var mapModel = ColorToShapeMap.FirstOrDefault(c => c.ShapeType == shapeModel.ShapeType && c.ColorType == colorModel.ColorType);
             if (mapModel == null)
             {

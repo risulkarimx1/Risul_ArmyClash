@@ -7,14 +7,14 @@ namespace Assets.Code.Sources.Units.Factory
     {
         private readonly DiContainer _container;
         private readonly IUnitConfigGenerator _unitConfigGenerator;
-        private readonly ColorToShapeMappingData _colorToShapeMap;
+        private readonly UnitColorToShapeDataAccess _colorToShapeDataAccess;
 
         public RandomUnitGenerationFactory(DiContainer container, IUnitConfigGenerator unitConfigGenerator,
-            ColorToShapeMappingData colorToShapeMap)
+            UnitColorToShapeDataAccess colorToShapeDataAccess)
         {
             _container = container;
             _unitConfigGenerator = unitConfigGenerator;
-            _colorToShapeMap = colorToShapeMap;
+            _colorToShapeDataAccess = colorToShapeDataAccess;
         }
 
         public IUnitController Create(UnitSide unitSide)
@@ -23,7 +23,7 @@ namespace Assets.Code.Sources.Units.Factory
 
             var unitObject = _container.InstantiatePrefab(randomConfig.Item2.ShapeObject);
 
-            var unitModel = new UnitModel(randomConfig.Item1, randomConfig.Item2, randomConfig.Item3, _colorToShapeMap);
+            var unitModel = new UnitModel(randomConfig.Item1, randomConfig.Item2, randomConfig.Item3, _colorToShapeDataAccess);
             var unitView = _container.InstantiateComponent<UnitView>(unitObject);
             unitView.gameObject.name = $"{unitSide} - {unitModel}";
             var unitController = new UnitController(unitModel, unitView, unitSide);

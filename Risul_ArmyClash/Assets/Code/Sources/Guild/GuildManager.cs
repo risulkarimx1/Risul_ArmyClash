@@ -1,28 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Assets.Code.Sources.Managers;
+using Assets.Code.Sources.Signals;
 using Assets.Code.Sources.Units;
 using Assets.Code.Sources.Units.Factory;
 using Assets.Code.Sources.Units.UnitConfiguration;
+using Zenject;
 
 namespace Assets.Code.Sources.Guild
 {
-    public class GuildManager
+    public class GuildManager : IDisposable
+
     {
         private readonly IUnitConfigGenerator _unitConfigGenerator;
         private readonly GameSettings _gameSettings;
         private readonly UnitFactory _unitFactory;
         private readonly GuildPositionController _guildPositionController;
+        private readonly SignalBus _signalBus;
         private readonly List<IUnitController> _unitSideA;
         private readonly List<IUnitController> _unitSideB;
 
-        public GuildManager(IUnitConfigGenerator unitConfigGenerator, GameSettings gameSettings, UnitFactory unitFactory, GuildPositionController guildPositionController)
+        public GuildManager(IUnitConfigGenerator unitConfigGenerator,
+            GameSettings gameSettings,
+            UnitFactory unitFactory,
+            GuildPositionController guildPositionController,
+            SignalBus signalBus)
         {
             _unitConfigGenerator = unitConfigGenerator;
             _gameSettings = gameSettings;
             _unitFactory = unitFactory;
             _guildPositionController = guildPositionController;
+            _signalBus = signalBus;
             _unitSideA = new List<IUnitController>();
             _unitSideB = new List<IUnitController>();
+            _signalBus.Subscribe<UnitShuffleSignal>(OnUnitShuffled);
+        }
+
+        private void OnUnitShuffled(UnitShuffleSignal unitShuffleSignal)
+        {
+            switch (unitShuffleSignal.ShuffleType)
+            {
+                case ShuffleType.Position:
+                    ShufflePositions(unitShuffleSignal.UnitSide);
+                    break;
+                case ShuffleType.Units:
+                    ShuffleUnits(unitShuffleSignal.UnitSide);
+                    break;
+            }
         }
 
         public void AddUnit(IUnitController unitController)
@@ -38,12 +62,12 @@ namespace Assets.Code.Sources.Guild
             }
         }
 
-        public void ShuffleUnits(UnitSide unitSide)
+        private void ShuffleUnits(UnitSide unitSide)
         {
             switch (unitSide)
             {
                 case UnitSide.SideA:
-                    _unitSideA.ForEach(unit=>
+                    _unitSideA.ForEach(unit =>
                     {
                         var randomModel = _unitConfigGenerator.GetRandomModel();
                         unit.Configure(randomModel);
@@ -59,7 +83,7 @@ namespace Assets.Code.Sources.Guild
             }
         }
 
-        public void ShufflePositions(UnitSide unitSide)
+        private void ShufflePositions(UnitSide unitSide)
         {
             switch (unitSide)
             {
@@ -96,6 +120,11 @@ namespace Assets.Code.Sources.Guild
             {
                 SetPosition(UnitSide.SideB);
             }
+        }
+
+        public void Dispose()
+        {
+            _signalBus.Unsubscribe<UnitShuffleSignal>(OnUnitShuffled);
         }
     }
 }

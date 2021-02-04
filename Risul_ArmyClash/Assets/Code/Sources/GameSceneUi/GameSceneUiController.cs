@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Code.Sources.GameStateMachine;
 using Assets.Code.Sources.Signals;
+using Assets.Code.Sources.Units;
 using UniRx;
 using Zenject;
 using static Assets.Code.Sources.Constants.Constants;
@@ -29,22 +30,39 @@ namespace Assets.Code.Sources.GameSceneUi
             
             gameSceneUiView.GuildARandomPositionButton.OnClickAsObservable().Subscribe(_ =>
             {
-
+                _signalBus.Fire(new UnitShuffleSignal
+                {
+                    ShuffleType = ShuffleType.Position,
+                    UnitSide = UnitSide.SideA
+                });
             }).AddTo(gameSceneUiView);
 
             gameSceneUiView.GuildBRandomPositionButton.OnClickAsObservable().Subscribe(_ =>
             {
-
+                _signalBus.Fire(new UnitShuffleSignal
+                {
+                    ShuffleType = ShuffleType.Position,
+                    UnitSide = UnitSide.SideB
+                });
+                
             }).AddTo(gameSceneUiView);
 
             gameSceneUiView.GuildAShuffleButton.OnClickAsObservable().Subscribe(_ =>
             {
-
+                _signalBus.Fire(new UnitShuffleSignal
+                {
+                    ShuffleType = ShuffleType.Units,
+                    UnitSide = UnitSide.SideA
+                });
             }).AddTo(gameSceneUiView);
 
-            gameSceneUiView.GuildBRandomPositionButton.OnClickAsObservable().Subscribe(_ =>
+            gameSceneUiView.GuildBShuffleButton.OnClickAsObservable().Subscribe(_ =>
             {
-
+                _signalBus.Fire(new UnitShuffleSignal
+                {
+                    ShuffleType = ShuffleType.Units,
+                    UnitSide = UnitSide.SideB
+                });
             }).AddTo(gameSceneUiView);
 
             #endregion

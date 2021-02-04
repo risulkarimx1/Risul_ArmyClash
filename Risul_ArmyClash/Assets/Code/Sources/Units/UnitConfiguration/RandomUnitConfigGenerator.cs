@@ -5,12 +5,12 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
     public class RandomUnitConfigGenerator: IUnitConfigGenerator
     {
         private readonly UnitConfigurationsData _configData;
-        private readonly ColorToShapeMappingData _colorShapeMappingData;
+        private readonly UnitColorToShapeDataAccess _colorToShapeMapDataAccess;
 
-        public RandomUnitConfigGenerator(UnitConfigurationsData configData, ColorToShapeMappingData colorShapeMappingData)
+        public RandomUnitConfigGenerator(UnitConfigurationsData configData, UnitColorToShapeDataAccess colorToShapeMapDataAccess)
         {
             _configData = configData;
-            _colorShapeMappingData = colorShapeMappingData;
+            _colorToShapeMapDataAccess = colorToShapeMapDataAccess;
         }
 
         private ColorModel GetRandomColor =>
@@ -29,7 +29,7 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
 
         public UnitModel GetRandomModel()
         {
-            return new UnitModel(GetRandomColor, GetRandomShape, GetRandomSize, _colorShapeMappingData);
+            return new UnitModel(GetRandomColor, GetRandomShape, GetRandomSize, _colorToShapeMapDataAccess);
         }
     }
 }

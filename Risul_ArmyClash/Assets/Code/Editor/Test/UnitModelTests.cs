@@ -18,6 +18,8 @@ namespace Code.Editor.Test
                 .AsSingle();
             Container.Bind<UnitConfigurationsData>().FromScriptableObjectResource(Constants.UnitConfigurationDataPath)
                 .AsSingle();
+
+            Container.BindInterfacesAndSelfTo<UnitColorToShapeDataAccess>().AsSingle();
         }
 
         [Test]
@@ -38,12 +40,14 @@ namespace Code.Editor.Test
         public void Blue_Cube_Small_Has_Hp_150_Attack_15()
         {
             var unitConfigurationsData = Container.Resolve<UnitConfigurationsData>();
-            var colorToShapeMapping = Container.Resolve<ColorToShapeMappingData>();
+            var colorMapDataAccess = Container.Resolve<UnitColorToShapeDataAccess>();
+            
             var blueColorModel = unitConfigurationsData.ColorModels.FirstOrDefault(c => c.ColorType == ColorType.Blue);
             var smallSizeModel = unitConfigurationsData.SizeModels.FirstOrDefault(s => s.SizeType == SizeType.Small);
             var cubeShapeModel = unitConfigurationsData.ShapeModels.FirstOrDefault(s => s.ShapeType == ShapeType.Cube);
-            var unitModel = new UnitModel(blueColorModel, cubeShapeModel, smallSizeModel, colorToShapeMapping);
-            _= unitModel.Configure();
+            var unitModel = new UnitModel(blueColorModel, cubeShapeModel, smallSizeModel, colorMapDataAccess);
+            unitModel.Configure();
+            
             var attack = unitModel.Atk;
             var hp = unitModel.Hp;
 
