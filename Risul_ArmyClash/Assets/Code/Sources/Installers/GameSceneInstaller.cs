@@ -1,6 +1,8 @@
 using Assets.Code.Sources.GameSceneUi;
+using Assets.Code.Sources.GameStateMachine;
 using Assets.Code.Sources.Guild;
 using Assets.Code.Sources.Managers;
+using Assets.Code.Sources.Signals;
 using Assets.Code.Sources.Units;
 using Assets.Code.Sources.Units.Factory;
 using Assets.Code.Sources.Units.UnitConfiguration;
@@ -16,6 +18,12 @@ namespace Assets.Code.Sources.Installers
         
         public override void InstallBindings()
         {
+            // Disposible
+            
+            // Install Signal
+            SignalBusInstaller.Install(Container);
+            Container.DeclareSignal<GameStateChangeSignal>();
+            
             // Settings from scriptable objects
             Container.Bind<ColorToShapeMappingData>().FromScriptableObjectResource(Constants.Constants.ColorToShapeMapPath).AsSingle();
             Container.Bind<UnitConfigurationsData>().FromScriptableObjectResource(Constants.Constants.UnitConfigurationDataPath).AsSingle();
@@ -23,6 +31,8 @@ namespace Assets.Code.Sources.Installers
             
             // computed configs objects
             Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
+            // Game State Machine
+            Container.Bind<GameStateController>().AsSingle();
             
             // Unit Factory
             Container.BindFactory<UnitSide, IUnitController, UnitFactory>().FromFactory<RandomUnitGenerationFactory>();
@@ -33,7 +43,7 @@ namespace Assets.Code.Sources.Installers
 
             // Ui Bindings
             Container.Bind<GameSceneUiView>().FromComponentInNewPrefab(_gameSceneUiView).AsSingle().NonLazy();
-            Container.Bind<GameSceneUiController>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<GameSceneUiController>().AsSingle().NonLazy();
             
             // Game Scene Manager
             Container.BindInterfacesAndSelfTo<GameSceneManager>().AsSingle();
