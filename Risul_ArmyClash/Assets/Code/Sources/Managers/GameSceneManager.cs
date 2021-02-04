@@ -7,19 +7,19 @@ namespace Assets.Code.Sources.Managers
     public class GameSceneManager: IInitializable
     {
         private readonly GuildManager _guildManager;
-        private readonly GameStateController _gameStateController;
+        private readonly GameState _gameState;
 
 
-        public GameSceneManager(GuildManager guildManager, GameStateController gameStateController)
+        public GameSceneManager(GuildManager guildManager, GameState gameState)
         {
             _guildManager = guildManager;
-            _gameStateController = gameStateController;
+            _gameState = gameState;
         }
 
         public void Initialize()
         {
             _guildManager.CreateGuilds();
-            _gameStateController.CurrentState = GameState.Initialize;
+            _gameState.CurrentState = State.Initialize;
         }
     }
 }

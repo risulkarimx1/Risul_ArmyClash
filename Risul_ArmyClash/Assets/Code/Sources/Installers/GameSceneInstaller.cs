@@ -36,7 +36,7 @@ namespace Assets.Code.Sources.Installers
             // computed configs objects
             Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
             // Game State Machine
-            Container.Bind<GameStateController>().AsSingle();
+            Container.Bind<GameState>().AsSingle();
             
             // Unit Factory
             Container.BindFactory<UnitSide, IUnitController, UnitFactory>().FromFactory<RandomUnitGenerationFactory>();
@@ -50,7 +50,8 @@ namespace Assets.Code.Sources.Installers
             Container.BindInterfacesAndSelfTo<GameSceneUiController>().AsSingle().NonLazy();
             
             // Battle Simulation
-            Container.BindInterfacesAndSelfTo<BattleSimulationManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<BattleSimulation.BattleSimulation>().AsSingle();
+            Container.Bind<TargetAssignment>().AsSingle();
             
             // Game Scene Manager
             Container.BindInterfacesAndSelfTo<GameSceneManager>().AsSingle();

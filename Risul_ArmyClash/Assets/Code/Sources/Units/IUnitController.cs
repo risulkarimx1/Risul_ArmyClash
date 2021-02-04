@@ -7,5 +7,7 @@ namespace Assets.Code.Sources.Units
         void Configure(UnitModel unitModel);
         UnitSide UnitSide { get; }
         float3 Position { get; set; }
+        void KillUnit();
+        bool IsAlive { get; }
     }
 }

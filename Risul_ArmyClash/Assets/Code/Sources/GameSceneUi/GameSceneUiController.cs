@@ -14,7 +14,7 @@ namespace Assets.Code.Sources.GameSceneUi
         private readonly SignalBus _signalBus;
 
         public GameSceneUiController(GameSceneUiView gameSceneUiView, ZenjectSceneLoader sceneLoader,
-            SignalBus signalBus, GameStateController gameStateController)
+            SignalBus signalBus, GameState gameState)
         {
             _gameSceneUiView = gameSceneUiView;
             _signalBus = signalBus;
@@ -25,7 +25,7 @@ namespace Assets.Code.Sources.GameSceneUi
 
             gameSceneUiView.PlayButton.OnClickAsObservable().Subscribe(_ =>
             {
-                gameStateController.CurrentState = GameState.Battle;
+                gameState.CurrentState = State.Battle;
             }).AddTo(gameSceneUiView);
             
             gameSceneUiView.GuildARandomPositionButton.OnClickAsObservable().Subscribe(_ =>
@@ -81,13 +81,13 @@ namespace Assets.Code.Sources.GameSceneUi
 
         private void OnGameStateChanged(GameStateChangeSignal gameStateChangeSignal)
         {
-            if (gameStateChangeSignal.GameState == GameState.Initialize)
+            if (gameStateChangeSignal.State == State.Initialize)
             {
                 _gameSceneUiView.SetInitializeUi();
-            }else if (gameStateChangeSignal.GameState == GameState.Battle)
+            }else if (gameStateChangeSignal.State == State.Battle)
             {
                 _gameSceneUiView.SetBattleModeUi();
-            }else if (gameStateChangeSignal.GameState == GameState.EndBattle)
+            }else if (gameStateChangeSignal.State == State.EndBattle)
             {
                 _gameSceneUiView.SetEndModeUi(gameStateChangeSignal.Message);
             }

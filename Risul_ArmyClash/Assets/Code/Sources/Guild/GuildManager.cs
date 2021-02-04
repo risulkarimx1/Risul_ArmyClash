@@ -38,6 +38,10 @@ namespace Assets.Code.Sources.Guild
             _signalBus.Subscribe<UnitShuffleSignal>(OnUnitShuffled);
         }
 
+        public List<IUnitController> GuildAList => _guildAList;
+
+        public List<IUnitController> GuildBList => _guildBList;
+
         private void OnUnitShuffled(UnitShuffleSignal unitShuffleSignal)
         {
             switch (unitShuffleSignal.ShuffleType)
@@ -76,25 +80,29 @@ namespace Assets.Code.Sources.Guild
             switch (unitController.UnitSide)
             {
                 case UnitSide.SideA:
-                    _guildAList.Add(unitController);
+                    GuildAList.Add(unitController);
                     break;
                 case UnitSide.SideB:
-                    _guildBList.Add(unitController);
+                    GuildBList.Add(unitController);
                     break;
             }
         }
 
-        private void RemoveUnit(IUnitController unitController)
+        public void RemoveUnit(IUnitController unitController)
         {
-            switch (unitController.UnitSide)
+            unitController.KillUnit();
+            
+            if (unitController.UnitSide == UnitSide.SideA)
+            // GuildAList.Remove(unitController);
+                unitController.KillUnit();
+            else if (unitController.UnitSide == UnitSide.SideB)
             {
-                case UnitSide.SideA:
-                    _guildAList.Remove(unitController);
-                    break;
-                case UnitSide.SideB:
-                    _guildBList.Remove(unitController);
-                    break;
+                GuildBList.Remove(unitController);
+                unitController.KillUnit();
             }
+            
+            else
+                return;
         }
 
         private void ShuffleUnits(UnitSide unitSide)
@@ -102,14 +110,14 @@ namespace Assets.Code.Sources.Guild
             switch (unitSide)
             {
                 case UnitSide.SideA:
-                    _guildAList.ForEach(unit =>
+                    GuildAList.ForEach(unit =>
                     {
                         var randomModel = _unitConfigGenerator.GetRandomModel();
                         unit.Configure(randomModel);
                     });
                     break;
                 case UnitSide.SideB:
-                    _guildBList.ForEach(unit =>
+                    GuildBList.ForEach(unit =>
                     {
                         var randomModel = _unitConfigGenerator.GetRandomModel();
                         unit.Configure(randomModel);
@@ -123,13 +131,13 @@ namespace Assets.Code.Sources.Guild
             switch (unitSide)
             {
                 case UnitSide.SideA:
-                    _guildAList.ForEach(unit =>
+                    GuildAList.ForEach(unit =>
                     {
                         unit.Position= _guildPositionController.GetRandomPosition(unitSide);
                     });
                     break;
                 case UnitSide.SideB:
-                    _guildBList.ForEach(unit =>
+                    GuildBList.ForEach(unit =>
                     {
                         unit.Position =(_guildPositionController.GetRandomPosition(unitSide));
                     });
@@ -142,20 +150,12 @@ namespace Assets.Code.Sources.Guild
             _signalBus.Unsubscribe<UnitShuffleSignal>(OnUnitShuffled);
         }
 
-        public List<float3> GetGuildPositions(UnitSide unitSide)
+        public float3[] GetGuildPositions(UnitSide unitSide)
         {
-            var positions = new List<float3>();
-            switch (unitSide)
-            {
-                case UnitSide.SideA:
-                    positions = _guildAList.Select(unit => unit.Position).ToList();
-                    break;
-                case UnitSide.SideB:
-                    positions = _guildBList.Select(unit => unit.Position).ToList();
-                    break;
-            }
-            
-            return positions;
+            if (unitSide == UnitSide.SideA)
+                return GuildAList.Select(unit => unit.Position).ToArray();
+            else
+                return GuildBList.Select(unit => unit.Position).ToArray();
         }
         
     }

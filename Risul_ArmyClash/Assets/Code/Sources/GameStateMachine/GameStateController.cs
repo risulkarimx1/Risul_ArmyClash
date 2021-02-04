@@ -3,17 +3,17 @@ using Zenject;
 
 namespace Assets.Code.Sources.GameStateMachine
 {
-    public class GameStateController
+    public class GameState
     {
         private readonly SignalBus _signalBus;
-        private GameState _currentState;
+        private State _currentState;
 
-        public GameStateController(SignalBus signalBus)
+        public GameState(SignalBus signalBus)
         {
             _signalBus = signalBus;
         }
         
-        public GameState CurrentState
+        public State CurrentState
         {
             get => _currentState;
             set
@@ -21,7 +21,7 @@ namespace Assets.Code.Sources.GameStateMachine
                 _currentState = value;
                 _signalBus.Fire(new GameStateChangeSignal()
                 {
-                    GameState = _currentState
+                    State = _currentState
                 });
             }
         }

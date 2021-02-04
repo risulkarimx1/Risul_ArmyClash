@@ -1,7 +1,7 @@
 ﻿namespace Assets.Code.Sources.GameStateMachine
 {
 
-    public enum GameState
+    public enum State
     {
         Initialize, Battle, PauseBattle, EndBattle
     }

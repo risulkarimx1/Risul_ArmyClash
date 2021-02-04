@@ -1,4 +1,6 @@
-﻿using Unity.Mathematics;
+﻿using System.Runtime.Remoting.Messaging;
+using Unity.Mathematics;
+using UnityEngine;
 
 namespace Assets.Code.Sources.Units
 {
@@ -42,6 +44,7 @@ namespace Assets.Code.Sources.Units
         {
             _isAlive = false;
             _unitView.SetActive(false);
+            Position = new float3(-7000,7000,70000);
         }
     }
 }
