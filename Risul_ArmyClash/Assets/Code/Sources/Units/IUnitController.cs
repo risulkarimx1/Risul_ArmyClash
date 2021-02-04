@@ -1,4 +1,5 @@
 ﻿using Unity.Mathematics;
+using UnityEngine;
 
 namespace Assets.Code.Sources.Units
 {
@@ -9,5 +10,6 @@ namespace Assets.Code.Sources.Units
         float3 Position { get; set; }
         void KillUnit();
         bool IsAlive { get; }
+        Transform Transform { get; }
     }
 }

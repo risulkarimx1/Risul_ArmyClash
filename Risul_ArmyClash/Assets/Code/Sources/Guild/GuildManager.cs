@@ -7,6 +7,7 @@ using Assets.Code.Sources.Units;
 using Assets.Code.Sources.Units.Factory;
 using Assets.Code.Sources.Units.UnitConfiguration;
 using Unity.Mathematics;
+using UnityEngine;
 using Zenject;
 
 namespace Assets.Code.Sources.Guild
@@ -155,6 +156,13 @@ namespace Assets.Code.Sources.Guild
             else
                 return GuildBList.Select(unit => unit.Position).ToArray();
         }
-        
+
+        public Transform[] GetUnitTransforms(UnitSide unitSide)
+        {
+            if (unitSide == UnitSide.SideA)
+                return GuildAList.Select(unit => unit.Transform).ToArray();
+            else
+                return GuildBList.Select(unit => unit.Transform).ToArray();
+        }
     }
 }

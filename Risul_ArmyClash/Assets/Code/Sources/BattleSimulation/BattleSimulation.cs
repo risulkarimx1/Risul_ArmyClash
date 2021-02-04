@@ -9,19 +9,25 @@ using Random = UnityEngine.Random;
 
 namespace Assets.Code.Sources.BattleSimulation
 {
-    public class BattleSimulation: IDisposable,ITickable
+    public class BattleSimulation : IDisposable, ITickable
     {
         private readonly GuildManager _guildManager;
         private readonly SignalBus _sinSignalBus;
         private readonly GameState _gameState;
         private readonly TargetAssignment _targetAssignment;
+        private readonly ProximalMovement _proximalMovement;
 
-        public BattleSimulation(GuildManager guildManager, SignalBus sinSignalBus, GameState gameState, TargetAssignment targetAssignment)
+        public BattleSimulation(GuildManager guildManager,
+            SignalBus sinSignalBus,
+            GameState gameState,
+            TargetAssignment targetAssignment,
+            ProximalMovement proximalMovement)
         {
             _guildManager = guildManager;
             _sinSignalBus = sinSignalBus;
             _gameState = gameState;
             _targetAssignment = targetAssignment;
+            _proximalMovement = proximalMovement;
             _sinSignalBus.Subscribe<GameStateChangeSignal>(OnGameStateChanged);
         }
 
@@ -30,7 +36,8 @@ namespace Assets.Code.Sources.BattleSimulation
             if (gameStateChangeSignal.State == State.Battle)
             {
                 StartBattle();
-            }else if (gameStateChangeSignal.State == State.EndBattle)
+            }
+            else if (gameStateChangeSignal.State == State.EndBattle)
             {
                 EndBattle();
             }
@@ -57,21 +64,26 @@ namespace Assets.Code.Sources.BattleSimulation
                 _guildManager.RemoveUnit(bunit);
             }
 
-            var nearestPos = _targetAssignment.LocateNearest(_guildManager.GetGuildPositions(UnitSide.SideA),
+            var nearestPos = _targetAssignment.LocateNearest(
+                _guildManager.GetGuildPositions(UnitSide.SideA),
                 _guildManager.GetGuildPositions(UnitSide.SideB));
-            var guildATarget = nearestPos.closeToA;
-            for (int i = 0; i < _guildManager.GuildAList.Count; i++)
-            {
-                _guildManager.GuildAList[i].Position = Vector3.Lerp(_guildManager.GuildAList[i].Position,
-                    guildATarget[i], Time.deltaTime / 2);
-            }
 
-            var guildBTarget = nearestPos.closeToB;
-            for (int i = 0; i < _guildManager.GuildBList.Count; i++)
-            {
-                _guildManager.GuildBList[i].Position = Vector3.Lerp(_guildManager.GuildBList[i].Position,
-                    guildBTarget[i], Time.deltaTime / 2);
-            }
+            _proximalMovement.MovementToNearest(_guildManager.GetUnitTransforms(UnitSide.SideA), nearestPos.closeToA);
+            _proximalMovement.MovementToNearest(_guildManager.GetUnitTransforms(UnitSide.SideB), nearestPos.closeToB);
+
+            // var guildATarget = nearestPos.closeToA;
+            // for (int i = 0; i < _guildManager.GuildAList.Count; i++)
+            // {
+            //     _guildManager.GuildAList[i].Position = Vector3.Lerp(_guildManager.GuildAList[i].Position,
+            //         guildATarget[i], Time.deltaTime / 2);
+            // }
+            //
+            // var guildBTarget = nearestPos.closeToB;
+            // for (int i = 0; i < _guildManager.GuildBList.Count; i++)
+            // {
+            //     _guildManager.GuildBList[i].Position = Vector3.Lerp(_guildManager.GuildBList[i].Position,
+            //         guildBTarget[i], Time.deltaTime / 2);
+            // }
         }
 
         public void Dispose()

@@ -43,6 +43,7 @@ namespace Assets.Code.Sources.Installers
             // Battle Simulation
             Container.BindInterfacesAndSelfTo<BattleSimulation.BattleSimulation>().AsSingle();
             Container.Bind<TargetAssignment>().AsSingle();
+            Container.Bind<ProximalMovement>().AsSingle();
             
             // Game Scene Manager
             Container.BindInterfacesAndSelfTo<GameSceneManager>().AsSingle();

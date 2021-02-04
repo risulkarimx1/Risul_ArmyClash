@@ -1,5 +1,4 @@
-﻿using System.Runtime.Remoting.Messaging;
-using Unity.Mathematics;
+﻿using Unity.Mathematics;
 using UnityEngine;
 
 namespace Assets.Code.Sources.Units
@@ -13,6 +12,7 @@ namespace Assets.Code.Sources.Units
         public UnitSide UnitSide => _unitSide;
 
         public bool IsAlive => _isAlive;
+        public Transform Transform => _unitView.Transform;
 
         private bool _isAlive;
 

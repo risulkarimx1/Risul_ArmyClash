@@ -30,7 +30,9 @@ namespace Assets.Code.Sources.Units
             get => _transform.position;
             set => _transform.position = value;
         }
-        
+
+        public Transform Transform => _transform;
+
         public void SetActive(bool state) => gameObject.SetActive(state);
         
     }

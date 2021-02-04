@@ -52,7 +52,7 @@ namespace Assets.Code.Sources.BattleSimulation
     
     public class TargetAssignment
     {
-        public (float3 [] closeToA, float3 [] closeToB) LocateNearest(float3 [] guildAPositions, float3 [] guildBPositions)
+        public (NativeList<float3> closeToA, NativeList<float3> closeToB) LocateNearest(float3 [] guildAPositions, float3 [] guildBPositions)
         {
             var guildAPosNativeArray = new NativeList<float3>(Allocator.TempJob);
             var guildBPosNativeArray = new NativeList<float3>(Allocator.TempJob);
@@ -81,24 +81,25 @@ namespace Assets.Code.Sources.BattleSimulation
             var handle = positionSeekingJob.Schedule();
             handle.Complete();
             
-            var closestToA = new float3[closestPositionsA.Length];
-            for (int i = 0; i < closestPositionsA.Length; i++)
-            {
-                closestToA[i] = closestPositionsA[i];
-            }
-            
-            var closestToB = new float3[closestPositionsB.Length];
-            for (int i = 0; i < closestPositionsB.Length; i++)
-            {
-                closestToB[i] = closestPositionsB[i];
-            }
+            // var closestToA = new float3[closestPositionsA.Length];
+            // for (int i = 0; i < closestPositionsA.Length; i++)
+            // {
+            //     closestToA[i] = closestPositionsA[i];
+            // }
+            //
+            // var closestToB = new float3[closestPositionsB.Length];
+            // for (int i = 0; i < closestPositionsB.Length; i++)
+            // {
+            //     closestToB[i] = closestPositionsB[i];
+            // }
             
             guildAPosNativeArray.Dispose();
             guildBPosNativeArray.Dispose();
-            closestPositionsA.Dispose();
-            closestPositionsB.Dispose();
+            // closestPositionsA.Dispose();
+            // closestPositionsB.Dispose();
 
-            return (closestToA, closestToB);
+            // return (closestToA, closestToB);
+            return (closestPositionsA, closestPositionsB);
         }
     }
 }
