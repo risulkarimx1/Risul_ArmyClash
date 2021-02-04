@@ -65,6 +65,13 @@ namespace Assets.Code.Sources.BattleSimulation
                 _guildManager.GuildAList[i].Position = Vector3.Lerp(_guildManager.GuildAList[i].Position,
                     guildATarget[i], Time.deltaTime / 2);
             }
+
+            var guildBTarget = nearestPos.closeToB;
+            for (int i = 0; i < _guildManager.GuildBList.Count; i++)
+            {
+                _guildManager.GuildBList[i].Position = Vector3.Lerp(_guildManager.GuildBList[i].Position,
+                    guildBTarget[i], Time.deltaTime / 2);
+            }
         }
 
         public void Dispose()

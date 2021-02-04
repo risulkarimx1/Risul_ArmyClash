@@ -12,7 +12,6 @@ using Zenject;
 namespace Assets.Code.Sources.Guild
 {
     public class GuildManager : IDisposable
-
     {
         private readonly IUnitConfigGenerator _unitConfigGenerator;
         private readonly GameSettings _gameSettings;
@@ -91,18 +90,17 @@ namespace Assets.Code.Sources.Guild
         public void RemoveUnit(IUnitController unitController)
         {
             unitController.KillUnit();
-            
+
             if (unitController.UnitSide == UnitSide.SideA)
-            // GuildAList.Remove(unitController);
+            {
+                GuildAList.Remove(unitController);
                 unitController.KillUnit();
+            }
             else if (unitController.UnitSide == UnitSide.SideB)
             {
                 GuildBList.Remove(unitController);
                 unitController.KillUnit();
             }
-            
-            else
-                return;
         }
 
         private void ShuffleUnits(UnitSide unitSide)
