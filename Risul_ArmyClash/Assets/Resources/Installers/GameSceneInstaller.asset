@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameSceneUiView: {fileID: 2146235812121156905, guid: 1d6bc6117bf7f654fa51085aaa27ac50,
     type: 3}
+  _hitEffectPrefab: {fileID: 9182119563423086993, guid: f06e78284f831ae469c74624ab5d513b,
+    type: 3}

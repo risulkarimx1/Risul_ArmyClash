@@ -1,5 +1,6 @@
 using Assets.Code.Sources.BattleSimulation;
 using Assets.Code.Sources.Camera;
+using Assets.Code.Sources.FX;
 using Assets.Code.Sources.GameSceneUi;
 using Assets.Code.Sources.GameStateMachine;
 using Assets.Code.Sources.Guild;
@@ -18,6 +19,7 @@ namespace Assets.Code.Sources.Installers
     public class GameSceneInstaller : ScriptableObjectInstaller<GameSceneInstaller>
     {
         [SerializeField] private GameSceneUiView _gameSceneUiView;
+        [SerializeField] private HitEffect _hitEffectPrefab;
         
         public override void InstallBindings()
         {
@@ -32,12 +34,15 @@ namespace Assets.Code.Sources.Installers
             Container.DeclareSignal<UnitKilledSignal>();
             Container.DeclareSignal<GuildScoreUpdatedSignal>();
             
-            // computed configs objects
+            // computed configs objects and Factory
+            Container.BindMemoryPool<HitEffect, HitEffect.Pool>().WithMaxSize(10).FromComponentInNewPrefab(_hitEffectPrefab);
             Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
+            
             // Game State Machine
             Container.Bind<GameState>().AsSingle();
 
             // Unit Weapon and Unit Factory Factory
+            
             Container.Bind<UnitHitHandler>().AsSingle();
             Container.BindInterfacesAndSelfTo<UnitWeapon>().AsTransient().WhenInjectedInto<UnitController>();
             Container.BindFactory<UnitSide, IUnitController, UnitFactory>().FromFactory<RandomUnitGenerationFactory>();
