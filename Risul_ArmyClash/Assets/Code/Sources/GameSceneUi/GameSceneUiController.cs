@@ -13,12 +13,16 @@ namespace Assets.Code.Sources.GameSceneUi
         private readonly GameSceneUiView _gameSceneUiView;
         private readonly SignalBus _signalBus;
 
-        public GameSceneUiController(GameSceneUiView gameSceneUiView, ZenjectSceneLoader sceneLoader,
+        public GameSceneUiController(GameSceneUiView gameSceneUiView,
+            ZenjectSceneLoader sceneLoader,
             SignalBus signalBus, GameState gameState)
         {
             _gameSceneUiView = gameSceneUiView;
             _signalBus = signalBus;
-            gameSceneUiView.CloseButton.OnClickAsObservable().Subscribe(_ => { sceneLoader.LoadScene(MenuSceneIndex); })
+            gameSceneUiView.CloseButton.OnClickAsObservable().Subscribe(_ =>
+                {
+                    sceneLoader.LoadScene(MenuSceneIndex);
+                })
                 .AddTo(gameSceneUiView);
 
             #region InitializeButton Events
@@ -69,6 +73,15 @@ namespace Assets.Code.Sources.GameSceneUi
 
             #region MatchEnd Button Events
 
+            _gameSceneUiView.HomeButton.OnClickAsObservable().Subscribe(_ =>
+            {
+                sceneLoader.LoadScene(MenuSceneIndex);
+            }).AddTo(gameSceneUiView);
+
+            _gameSceneUiView.ResetButton.OnClickAsObservable().Subscribe(_ =>
+            {
+                sceneLoader.LoadScene(GameSceneIndex);
+            }).AddTo(gameSceneUiView);
 
             #endregion
 

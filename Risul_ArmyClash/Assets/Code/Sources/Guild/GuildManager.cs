@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Code.Sources.GameStateMachine;
 using Assets.Code.Sources.Managers;
 using Assets.Code.Sources.Signals;
 using Assets.Code.Sources.Units;
@@ -20,6 +21,7 @@ namespace Assets.Code.Sources.Guild
         private readonly GuildPositionController _guildPositionController;
         private readonly UnitHitHandler _unitHitHandler;
         private readonly SignalBus _signalBus;
+        private readonly GameState _gameState;
         private readonly List<IUnitController> _guildAList;
         private readonly List<IUnitController> _guildBList;
 
@@ -28,7 +30,8 @@ namespace Assets.Code.Sources.Guild
             UnitFactory unitFactory,
             GuildPositionController guildPositionController,
             UnitHitHandler unitHitHandler,
-            SignalBus signalBus)
+            SignalBus signalBus,
+            GameState gameState)
         {
             _unitConfigGenerator = unitConfigGenerator;
             _gameSettings = gameSettings;
@@ -36,9 +39,11 @@ namespace Assets.Code.Sources.Guild
             _guildPositionController = guildPositionController;
             _unitHitHandler = unitHitHandler;
             _signalBus = signalBus;
+            _gameState = gameState;
             _guildAList = new List<IUnitController>();
             _guildBList = new List<IUnitController>();
             _signalBus.Subscribe<UnitShuffleSignal>(OnUnitShuffled);
+            _signalBus.Subscribe<UnitKilledSignal>(OnUnitKilled);
         }
 
         public List<IUnitController> GuildAList => _guildAList;
@@ -94,18 +99,26 @@ namespace Assets.Code.Sources.Guild
             _unitHitHandler.AddToMap(unitController);
         }
 
+        private void OnUnitKilled(UnitKilledSignal unitKilledSignal)
+        {
+            RemoveUnit(unitKilledSignal.unitController);
+        }
+
         public void RemoveUnit(IUnitController unitController)
         {
             switch (unitController.UnitSide)
             {
                 case UnitSide.SideA:
                     GuildAList.Remove(unitController);
-                    unitController.KillUnit();
                     break;
                 case UnitSide.SideB:
                     GuildBList.Remove(unitController);
-                    unitController.KillUnit();
                     break;
+            }
+
+            if (GuildAList.Count <= 0 || GuildBList.Count <= 0)
+            {
+                _gameState.CurrentState = State.EndBattle;
             }
         }
 
@@ -176,6 +189,14 @@ namespace Assets.Code.Sources.Guild
                 return GuildAList.Select(unit => unit.Size).ToArray();
             else
                 return GuildBList.Select(unit => unit.Size).ToArray();
+        }
+
+        public float[] GetUnitMovementSpeed(UnitSide unitSide)
+        {
+            if (unitSide == UnitSide.SideA)
+                return GuildAList.Select(unit => unit.MovementSpeed).ToArray();
+            else
+                return GuildBList.Select(unit => unit.MovementSpeed).ToArray();
         }
     }
 }

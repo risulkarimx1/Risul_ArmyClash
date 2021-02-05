@@ -58,11 +58,11 @@ namespace Assets.Code.Sources.BattleSimulation
         {
             if (_gameState.CurrentState != State.Battle) return;
 
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                var bunit = _guildManager.GuildBList[Random.Range(0, _guildManager.GuildBList.Count)];
-                _guildManager.RemoveUnit(bunit);
-            }
+            // if (Input.GetKeyDown(KeyCode.A))
+            // {
+            //     var bunit = _guildManager.GuildBList[Random.Range(0, _guildManager.GuildBList.Count)];
+            //     _guildManager.RemoveUnit(bunit);
+            // }
 
             // Target Job
             var nearestPos = _targetAssignment.LocateNearest(
@@ -72,12 +72,15 @@ namespace Assets.Code.Sources.BattleSimulation
             // Reposition Job
             _proximalMovement.MovementToNearest(
                 _guildManager.GetUnitTransforms(UnitSide.SideA),
-                nearestPos.closeToA, _guildManager.GetUnitSize(UnitSide.SideA));
-            _proximalMovement.MovementToNearest(
-                _guildManager.GetUnitTransforms(UnitSide.SideB), 
-                nearestPos.closeToB, 
-                _guildManager.GetUnitSize(UnitSide.SideA));
+                nearestPos.closeToA,
+                _guildManager.GetUnitSize(UnitSide.SideA),
+                _guildManager.GetUnitMovementSpeed(UnitSide.SideA));
             
+            _proximalMovement.MovementToNearest(
+                _guildManager.GetUnitTransforms(UnitSide.SideB),
+                nearestPos.closeToB,
+                _guildManager.GetUnitSize(UnitSide.SideB),
+                _guildManager.GetUnitMovementSpeed(UnitSide.SideB));
         }
 
         public void Dispose()

@@ -1,4 +1,5 @@
-﻿using Unity.Mathematics;
+﻿using Assets.Code.Sources.Signals;
+using Unity.Mathematics;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
@@ -11,22 +12,26 @@ namespace Assets.Code.Sources.Units
         private readonly UnitView _unitView;
         private readonly UnitSide _unitSide;
         private readonly UnitWeapon _unitWeapon;
-        private bool _isAlive;
+        private readonly SignalBus _signalBus;
 
         public UnitSide UnitSide => _unitSide;
-        public bool IsAlive => _isAlive;
         public Transform Transform => _unitView.Transform;
         public float Size => _unitModel.SizeModel.SizeFactor;
+        public float MovementSpeed => _unitModel.MovementSpeed;
 
-        public UnitController(UnitModel unitModel, UnitView unitView, UnitSide unitSide, UnitWeapon unitWeapon)
+        public UnitController(UnitModel unitModel, 
+            UnitView unitView, 
+            UnitSide unitSide, 
+            UnitWeapon unitWeapon, 
+            SignalBus signalBus)
         {
             _unitModel = unitModel;
             _unitView = unitView;
             _unitSide = unitSide;
             _unitWeapon = unitWeapon;
+            _signalBus = signalBus;
             _unitModel.Configure();
             _unitView.Configure(_unitModel);
-            _isAlive = true;
             _unitWeapon.Configure(unitView,unitSide);
         }
 
@@ -51,7 +56,15 @@ namespace Assets.Code.Sources.Units
 
         public void Hit()
         {
-            _unitView.Rigidbody.AddRelativeForce( - _unitView.Transform.forward + (Vector3.right * Random.Range(-3, 3)) * Random.Range(5,10), ForceMode.Impulse);
+            _unitView.Rigidbody.AddRelativeForce( 
+                - _unitView.Transform.forward + 
+                (Vector3.right * Random.Range(-3, 3)) 
+                * Random.Range(5,10), ForceMode.Impulse);
+            _unitModel.Hp.Value-=50;
+            if (_unitModel.Hp.Value <= 0)
+            {
+                KillUnit();
+            }
         }
 
         public int GetId()
@@ -59,9 +72,15 @@ namespace Assets.Code.Sources.Units
             return _unitView.GetID();
         }
 
-        public void KillUnit()
+        private void KillUnit()
         {
-            _isAlive = false;
+            Debug.Log($"Killed unit {_unitView.gameObject.name}");
+            _signalBus.Fire( new UnitKilledSignal()
+            {
+                unitController = this
+            });
+
+            _unitWeapon.Destroy();
             _unitView.SetActive(false);
         }
     }

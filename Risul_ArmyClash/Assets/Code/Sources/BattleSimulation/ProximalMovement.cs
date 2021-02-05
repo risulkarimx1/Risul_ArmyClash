@@ -10,24 +10,30 @@ namespace Assets.Code.Sources.BattleSimulation
         public NativeArray<float3> Destinations;
         [ReadOnly]
         public NativeList<float> UnitSizes;
+        [ReadOnly]
+        public NativeList<float> MovementSpeeds;
         public float DeltaTime;
 
         public void Execute(int index, TransformAccess transform)
         {
-            if (Vector3.Distance(transform.position, Destinations[index]) > UnitSizes[index])
+            if (Vector3.Distance(transform.position, Destinations[index]) > UnitSizes[index] * 2)
             {
-                transform.position = Vector3.Lerp(transform.position, Destinations[index], DeltaTime * 2);
-                var lookPos = Destinations[index] - (float3) transform.position;
-                lookPos.y = 0;
-                var rotation = Quaternion.LookRotation(lookPos);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, DeltaTime * 2);
+                transform.position = Vector3.MoveTowards(transform.position, Destinations[index], DeltaTime * MovementSpeeds[index]);
             }
+            
+            var lookPos = Destinations[index] - (float3)transform.position;
+            lookPos.y = 0;
+            var rotation = Quaternion.LookRotation(lookPos);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, DeltaTime * 10);
         }
     }
 
     public class ProximalMovement
     {
-        public void MovementToNearest(Transform[] unitTransforms, NativeList<float3> desination, float[] unitSize)
+        public void MovementToNearest(Transform[] unitTransforms,
+            NativeList<float3> desination,
+            float[] unitSize, 
+            float[] movementSpeeds)
         {
             var transforms = new TransformAccessArray(unitTransforms.Length);
             foreach (var unitTransform in unitTransforms)
@@ -41,11 +47,18 @@ namespace Assets.Code.Sources.BattleSimulation
                 unitSizesNativeList.Add(size);
             }
 
+            var movementSpeedNativeList = new NativeList<float>(Allocator.TempJob);
+            foreach (var movementSpeed in movementSpeeds)
+            {
+                movementSpeedNativeList.Add(movementSpeed);
+            }
+
             var proximalMovementJob = new ProximalMovementJob()
             {
                 DeltaTime = Time.deltaTime,
                 Destinations = desination,
-                UnitSizes = unitSizesNativeList
+                UnitSizes = unitSizesNativeList,
+                MovementSpeeds = movementSpeedNativeList
             };
 
             var movementHandle = proximalMovementJob.Schedule(transforms);
@@ -53,6 +66,7 @@ namespace Assets.Code.Sources.BattleSimulation
 
             transforms.Dispose();
             desination.Dispose(movementHandle);
+            movementSpeedNativeList.Dispose(movementHandle);
             unitSizesNativeList.Dispose();
         }
     }

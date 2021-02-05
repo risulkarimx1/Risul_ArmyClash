@@ -28,6 +28,7 @@ namespace Assets.Code.Sources.Installers
             Container.DeclareSignal<GameStateChangeSignal>();
             Container.DeclareSignal<UnitShuffleSignal>();
             Container.DeclareSignal<UnitHitSignal>();
+            Container.DeclareSignal<UnitKilledSignal>();
             
             // computed configs objects
             Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
