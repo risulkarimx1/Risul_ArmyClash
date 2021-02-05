@@ -27,10 +27,10 @@ namespace Sources.Units.UnitConfiguration.Editor
             {
                 _target.GenerateMatrix();
             }
-            if (GUILayout.Button("LoadAsync"))
+            if (GUILayout.Button("LoadA From Json"))
             {
                 var path = Constants.ColorMapJsonFilePath;
-                _target.LoadAsync(path);
+                _= _target.LoadAsync(path);
             }
             GUILayout.Space(20);
             EditorGUILayout.BeginVertical();

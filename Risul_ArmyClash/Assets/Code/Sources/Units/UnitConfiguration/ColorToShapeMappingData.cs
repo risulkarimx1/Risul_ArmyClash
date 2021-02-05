@@ -16,6 +16,19 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
 
         public List<ColorToShapeMapModel> ColorToShapeMap => _colorToShapeMap;
 
+        public void ExpandTable()
+        {
+            if (_colorToShapeMap != null || _colorToShapeMap.Count > 0)
+            {
+                LoadConfigFromResources();
+                var tempoColorToShapeMap = new List<ColorToShapeMapModel>();
+                foreach (var colorToShapeMapModel in _colorToShapeMap)
+                {
+                    tempoColorToShapeMap.Add(colorToShapeMapModel);
+                }
+            }
+        }
+
         public void GenerateMatrix()
         {
             LoadConfigFromResources();
@@ -65,6 +78,12 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
         public void Save()
         {
             var jsonString = JsonConvert.SerializeObject(_colorToShapeMap, Formatting.Indented);
+            if (!File.Exists(Constants.Constants.ColorMapJsonFilePath))
+            {
+                var fs = new FileStream(Constants.Constants.ColorMapJsonFilePath, FileMode.Create);
+                fs.Dispose();
+            }
+            
             File.WriteAllText(Constants.Constants.ColorMapJsonFilePath, jsonString);
             Debug.Log($"Saved File at {Constants.Constants.ColorMapJsonFilePath}");
             Debug.Log($"{jsonString}");

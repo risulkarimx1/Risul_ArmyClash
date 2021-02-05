@@ -7,9 +7,10 @@
         public UnitColorToShapeDataAccess(ColorToShapeMappingData colorToShapeMappingData)
         {
             _colorToShapeMappingData = colorToShapeMappingData;
-            
+
+            var dataPath = Constants.Constants.ColorMapJsonFilePath;
             // TODO: Make it async... Create Method pattern
-            _ = _colorToShapeMappingData.LoadAsync(Constants.Constants.ColorMapJsonFilePath);
+            _ = _colorToShapeMappingData.LoadAsync(dataPath);
         }
 
         public ColorToShapeMapModel GetColorShapeMappedModel(ShapeModel shapeModel, ColorModel colorModel)
