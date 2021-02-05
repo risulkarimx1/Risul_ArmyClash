@@ -12,26 +12,40 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
     {
         [SerializeField] private List<ColorToShapeMapModel> _colorToShapeMap = new List<ColorToShapeMapModel>();
         [SerializeField] private UnitConfigurationsData _unitConfigurationsData;
+        
         public UnitConfigurationsData ConfigurationsData => _unitConfigurationsData;
-
         public List<ColorToShapeMapModel> ColorToShapeMap => _colorToShapeMap;
 
         public void ExpandTable()
         {
-            if (_colorToShapeMap != null || _colorToShapeMap.Count > 0)
+            if(_colorToShapeMap.Count <= 0) return;
+            
+            _unitConfigurationsData = Resources.Load<UnitConfigurationsData>(Constants.Constants.UnitConfigurationDataPath);
+            int index = 0;
+            foreach (var shapeModel in _unitConfigurationsData.ShapeModels)
             {
-                LoadConfigFromResources();
-                var tempoColorToShapeMap = new List<ColorToShapeMapModel>();
-                foreach (var colorToShapeMapModel in _colorToShapeMap)
+                foreach (var colorModel in _unitConfigurationsData.ColorModels)
                 {
-                    tempoColorToShapeMap.Add(colorToShapeMapModel);
+                    if (index >= _colorToShapeMap.Count)
+                    {
+                        var colorToShapeMap = new ColorToShapeMapModel()
+                        {
+                            ColorType = colorModel.ColorType,
+                            ShapeType = shapeModel.ShapeType,
+                            Atk = 0,
+                            Hp = 0
+                        };
+                        _colorToShapeMap.Add(colorToShapeMap);
+                    }
+
+                    index++;
                 }
             }
         }
 
-        public void GenerateMatrix()
+        public void ResetTable()
         {
-            LoadConfigFromResources();
+            _unitConfigurationsData = Resources.Load<UnitConfigurationsData>(Constants.Constants.UnitConfigurationDataPath);
             ColorToShapeMap.Clear();
 
             foreach (var shapeModel in _unitConfigurationsData.ShapeModels)
@@ -53,6 +67,7 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
         public ColorToShapeMapModel GetColorShapeMappedModel(ShapeModel shapeModel, ColorModel colorModel)
         {
             var mapModel = ColorToShapeMap.FirstOrDefault(c => c.ShapeType == shapeModel.ShapeType && c.ColorType == colorModel.ColorType);
+            
             if (mapModel == null)
             {
                 Debug.LogError($"No Mapping Found For this Combination. Generate the Matrix at {Constants.Constants.ColorToShapeMapPath}");
@@ -61,10 +76,6 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
             return mapModel;
         }
 
-        public void LoadConfigFromResources()
-        {
-            _unitConfigurationsData = Resources.Load<UnitConfigurationsData>(Constants.Constants.UnitConfigurationDataPath);
-        }
 
         public async UniTask LoadAsync(string path)
         {

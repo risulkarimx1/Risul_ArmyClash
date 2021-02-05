@@ -23,25 +23,33 @@ namespace Sources.Units.UnitConfiguration.Editor
                 EditorGUILayout.HelpBox($"{nameof(_target.ConfigurationsData)} Cant be empty ", MessageType.Error);
                 return;
             }
-            if (GUILayout.Button("Generate /Reset Mapping Matrix"))
+            
+            if (GUILayout.Button("Clear Table"))
             {
-                _target.GenerateMatrix();
+                _target.ResetTable();
             }
-            if (GUILayout.Button("LoadA From Json"))
+
+            if (GUILayout.Button("Expand Table - After adding new Color / Shape"))
+            {
+                _target.ExpandTable();
+            }
+
+            if (GUILayout.Button("Load From Json"))
             {
                 var path = Constants.ColorMapJsonFilePath;
                 _= _target.LoadAsync(path);
+                Debug.Log($"Loaded file from path {path}");
             }
+            
             GUILayout.Space(20);
             EditorGUILayout.BeginVertical();
             EditorGUIUtility.labelWidth = 50;
             EditorGUIUtility.fieldWidth = 10;
             foreach (var colorToShapeMap in _target.ColorToShapeMap)
             {
-
                 EditorGUILayout.BeginHorizontal();
-                colorToShapeMap.ColorType = (ColorType) EditorGUILayout.EnumPopup("Color: ", colorToShapeMap.ColorType);
-                colorToShapeMap.ShapeType = (ShapeType) EditorGUILayout.EnumFlagsField("Shape: ", colorToShapeMap.ShapeType);
+                EditorGUILayout.LabelField($"Color: {colorToShapeMap.ColorType}");
+                EditorGUILayout.LabelField($"Shape: {colorToShapeMap.ShapeType}");
                 colorToShapeMap.Atk = EditorGUILayout.FloatField("Attack:", colorToShapeMap.Atk);
                 colorToShapeMap.Hp = EditorGUILayout.FloatField("Hp:", colorToShapeMap.Hp);
                 EditorGUILayout.EndHorizontal();
