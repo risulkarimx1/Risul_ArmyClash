@@ -51,7 +51,7 @@ namespace Assets.Code.Sources.Units
 
         public void Hit()
         {
-            _unitView.Rigidbody.AddRelativeForce( - _unitView.Transform.forward * Random.Range(10,20), ForceMode.Impulse);
+            _unitView.Rigidbody.AddRelativeForce( - _unitView.Transform.forward + (Vector3.right * Random.Range(-3, 3)) * Random.Range(5,10), ForceMode.Impulse);
         }
 
         public int GetId()

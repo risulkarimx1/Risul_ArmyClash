@@ -14,13 +14,13 @@ namespace Assets.Code.Sources.BattleSimulation
 
         public void Execute(int index, TransformAccess transform)
         {
-            if (Vector3.Distance(transform.position, Destinations[index]) > UnitSizes[index] * 2)
+            if (Vector3.Distance(transform.position, Destinations[index]) > UnitSizes[index])
             {
-                transform.position = Vector3.Lerp(transform.position, Destinations[index], DeltaTime / 2);
+                transform.position = Vector3.Lerp(transform.position, Destinations[index], DeltaTime * 2);
                 var lookPos = Destinations[index] - (float3) transform.position;
                 lookPos.y = 0;
                 var rotation = Quaternion.LookRotation(lookPos);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, DeltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, DeltaTime * 2);
             }
         }
     }
