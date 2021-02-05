@@ -35,7 +35,7 @@ namespace Assets.Code.Sources.Installers
             Container.DeclareSignal<GuildScoreUpdatedSignal>();
             
             // computed configs objects and Factory
-            Container.BindMemoryPool<HitEffect, HitEffect.Pool>().WithMaxSize(10).FromComponentInNewPrefab(_hitEffectPrefab);
+            Container.Bind<HitEffect>().FromComponentInNewPrefab(_hitEffectPrefab).AsTransient();
             Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
             
             // Game State Machine

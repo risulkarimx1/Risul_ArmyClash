@@ -1,7 +1,6 @@
 ﻿using Assets.Code.Sources.FX;
 using Assets.Code.Sources.Managers;
 using Assets.Code.Sources.Signals;
-using DG.Tweening;
 using Unity.Mathematics;
 using UnityEngine;
 using Zenject;
@@ -17,20 +16,20 @@ namespace Assets.Code.Sources.Units
         private readonly UnitWeapon _unitWeapon;
         private readonly SignalBus _signalBus;
         private readonly GameSettings _gameSettings;
-        private readonly HitEffect.Pool _hitEffectPool;
+        private readonly HitEffect _hitEffect;
 
         public UnitSide UnitSide => _unitSide;
         public Transform Transform => _unitView.Transform;
         public float Size => _unitModel.SizeModel.SizeFactor;
         public float MovementSpeed => _unitModel.MovementSpeed;
 
-        public UnitController(UnitModel unitModel, 
-            UnitView unitView, 
-            UnitSide unitSide, 
-            UnitWeapon unitWeapon, 
+        public UnitController(UnitModel unitModel,
+            UnitView unitView,
+            UnitSide unitSide,
+            UnitWeapon unitWeapon,
             SignalBus signalBus,
             GameSettings gameSettings,
-            HitEffect.Pool hitEffectPool)
+            HitEffect hitEffect)
         {
             _unitModel = unitModel;
             _unitView = unitView;
@@ -38,10 +37,11 @@ namespace Assets.Code.Sources.Units
             _unitWeapon = unitWeapon;
             _signalBus = signalBus;
             _gameSettings = gameSettings;
-            _hitEffectPool = hitEffectPool;
+            _hitEffect = hitEffect;
+            _hitEffect.transform.parent = _unitView.transform;
             _unitModel.Configure();
             _unitView.Configure(_unitModel);
-            _unitWeapon.Configure(unitView,unitSide, _unitModel.AttackSpeed);
+            _unitWeapon.Configure(unitView, unitSide, _unitModel.AttackSpeed);
         }
 
         public void Configure(UnitModel unitModel)
@@ -65,13 +65,9 @@ namespace Assets.Code.Sources.Units
 
         public void Hit()
         {
+            _hitEffect.PlayEffect(Position);
             _unitView.Rigidbody.AddRelativeForce(HitForce, ForceMode.Impulse);
-            var effect = _hitEffectPool.Spawn(Position);
-            DOTween.Sequence().AppendInterval(.1f).AppendCallback(() => {
-            {
-                _hitEffectPool.Despawn(effect);
-            } });
-            _unitModel.Hp.Value-=_gameSettings.WeaponDamage;
+            _unitModel.Hp.Value -= _gameSettings.WeaponDamage;
             if (_unitModel.Hp.Value <= 0)
             {
                 KillUnit();
@@ -85,7 +81,7 @@ namespace Assets.Code.Sources.Units
 
         private void KillUnit()
         {
-            _signalBus.Fire( new UnitKilledSignal()
+            _signalBus.Fire(new UnitKilledSignal()
             {
                 unitController = this
             });
@@ -94,6 +90,7 @@ namespace Assets.Code.Sources.Units
             _unitView.SetActive(false);
         }
 
-        private Vector3 HitForce => -(_unitView.Transform.forward * Random.Range(5, 10) )+ (Vector3.right * Random.Range(-3, 3));
+        private Vector3 HitForce =>
+            -(_unitView.Transform.forward * Random.Range(5, 10)) + (Vector3.right * Random.Range(-3, 3));
     }
 }
