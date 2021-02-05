@@ -34,3 +34,5 @@ MonoBehaviour:
   _maxMovementSpeed: 5
   _minAtkSpeed: 1
   _maxAtkSpeed: 2
+  _weaponDamage: 10
+  _weaponRange: 3

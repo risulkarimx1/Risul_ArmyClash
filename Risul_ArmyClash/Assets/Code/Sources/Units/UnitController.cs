@@ -76,7 +76,6 @@ namespace Assets.Code.Sources.Units
 
         private void KillUnit()
         {
-            Debug.Log($"Killed unit {_unitView.gameObject.name}");
             _signalBus.Fire( new UnitKilledSignal()
             {
                 unitController = this
