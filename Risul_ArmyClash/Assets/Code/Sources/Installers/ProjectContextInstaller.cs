@@ -11,9 +11,12 @@ namespace Assets.Code.Sources.Installers
         public override void InstallBindings()
         {
             // Settings from ScriptableObjects
-            Container.Bind<ColorToShapeMappingData>().FromScriptableObjectResource(Constants.Constants.ColorToShapeMapPath).AsSingle();
-            Container.Bind<UnitConfigurationsData>().FromScriptableObjectResource(Constants.Constants.UnitConfigurationDataPath).AsSingle();
-            Container.Bind<GameSettings>().FromScriptableObjectResource(Constants.Constants.GameSettingsPath).AsSingle();
+            Container.Bind<ColorToShapeMappingData>()
+                .FromScriptableObjectResource(Constants.Constants.ColorToShapeMapPath).AsSingle();
+            Container.Bind<UnitConfigurationsData>()
+                .FromScriptableObjectResource(Constants.Constants.UnitConfigurationDataPath).AsSingle();
+            Container.Bind<GameSettings>().FromScriptableObjectResource(Constants.Constants.GameSettingsPath)
+                .AsSingle();
 
             Container.BindInterfacesAndSelfTo<UnitColorToShapeDataAccess>().AsSingle().NonLazy();
         }

@@ -13,9 +13,8 @@ namespace Assets.Code.Sources.Managers
         [SerializeField] private GuildPositioningModel _guildPositionA;
         [SerializeField] private GuildPositioningModel _guildPositionB;
 
-        [Space(20)] 
-        [Header("Hp")] 
-        [SerializeField] private float _initHp;
+        [Space(20)] [Header("Hp")] [SerializeField]
+        private float _initHp;
 
         [SerializeField] private float _minHp;
         [SerializeField] private float _maxHp;
@@ -24,13 +23,14 @@ namespace Assets.Code.Sources.Managers
         [SerializeField] private float _minAtk;
         [SerializeField] private float _maxAtk;
 
-        [Header("Min Movement Speed")] 
-        [SerializeField] private float _minMovementSpeed;
+        [Header("Min Movement Speed")] [SerializeField]
+        private float _minMovementSpeed;
 
         [SerializeField] private float _maxMovementSpeed;
 
-        [Header("Min Attack Speed")] 
-        [SerializeField] private float _minAtkSpeed;
+        [Header("Min Attack Speed")] [SerializeField]
+        private float _minAtkSpeed;
+
         [SerializeField] private float _maxAtkSpeed;
 
         [Header("Weapon Settings")] [SerializeField]

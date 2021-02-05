@@ -1,6 +1,4 @@
-﻿using Assets.Code.Sources.FX;
-using UnityEngine;
-using Zenject;
+﻿using UnityEngine;
 
 namespace Assets.Code.Sources.Units
 {

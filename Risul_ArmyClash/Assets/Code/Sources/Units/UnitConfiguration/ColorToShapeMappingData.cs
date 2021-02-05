@@ -73,8 +73,7 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
 
             if (mapModel == null)
             {
-                Debug.LogError(
-                    $"No Mapping Found For this Combination. Generate the Matrix at {Constants.Constants.ColorToShapeMapPath}");
+                Debug.LogError($"No Mapping Found For this Combination. Generate the Matrix at {Constants.Constants.ColorToShapeMapPath}");
             }
 
             return mapModel;

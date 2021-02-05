@@ -11,7 +11,6 @@ namespace Assets.Code.Sources.Managers
         private readonly GameState _gameState;
         private readonly CompositeDisposable _disposable;
 
-
         public GameSceneManager(GuildManager guildManager, GameState gameState, CompositeDisposable disposable)
         {
             _guildManager = guildManager;

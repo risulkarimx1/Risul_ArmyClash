@@ -8,7 +8,6 @@ namespace Assets.Code.Sources.Guild
     {
         private readonly GameSettings _gameSettings;
 
-
         public GuildPositionController(GameSettings gameSettings)
         {
             _gameSettings = gameSettings;

@@ -8,7 +8,7 @@ namespace Assets.Code.Sources.Installers
     public class MenuSceneInstaller : ScriptableObjectInstaller<MenuSceneInstaller>
     {
         [SerializeField] private GameObject _mainMenuView;
-        
+
         public override void InstallBindings()
         {
             Container.Bind<MainMenuView>().FromComponentInNewPrefab(_mainMenuView).AsSingle().NonLazy();
