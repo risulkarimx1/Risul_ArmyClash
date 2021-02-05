@@ -3,40 +3,49 @@ using UniRx;
 
 namespace Assets.Code.Sources.Units
 {
-    public class UnitBaseModel
+    public class UnitModel
     {
-        protected ReactiveProperty<float> _hp;
-        protected ReactiveProperty<float> _atk;
+        private ReactiveProperty<float> _hp;
+        private ReactiveProperty<float> _atk;
 
-        public UnitBaseModel()
-        {
-            _hp = new ReactiveProperty<float>(100);
-            _atk = new ReactiveProperty<float>(10);
-        }
+        private float _movementSpeed;
+        private float _attackSpeed;
 
-        public ReactiveProperty<float> Hp => _hp;
 
-        public ReactiveProperty<float> Atk => _atk;
-    }
-
-    public class UnitModel : UnitBaseModel
-    {
         private readonly ColorModel _colorModel;
         private readonly ShapeModel _shapeModel;
         private readonly SizeModel _sizeModel;
         private readonly UnitColorToShapeDataAccess _colorToShapeMapAccess;
+
+        public ReactiveProperty<float> Hp
+        {
+            get => _hp;
+            set => _hp = value;
+        }
+
+        public ReactiveProperty<float> Atk
+        {
+            get => _atk;
+            set => _atk = value;
+        }
+
+        public float MovementSpeed => _movementSpeed;
+        public float AttackSpeed => _attackSpeed;
 
         public ColorModel ColorModel => _colorModel;
         public ShapeModel ShapeModel => _shapeModel;
         public SizeModel SizeModel => _sizeModel;
 
         public UnitModel(ColorModel colorModel, ShapeModel shapeModel, SizeModel sizeModel,
-            UnitColorToShapeDataAccess colorToShapeMapAccess)
+            UnitColorToShapeDataAccess colorToShapeMapAccess, float initHp, float initAtk)
         {
             _colorModel = colorModel;
             _shapeModel = shapeModel;
             _sizeModel = sizeModel;
             _colorToShapeMapAccess = colorToShapeMapAccess;
+
+            _hp = new ReactiveProperty<float>(initHp);
+            _atk = new ReactiveProperty<float>(initAtk);
         }
 
         public void Configure()

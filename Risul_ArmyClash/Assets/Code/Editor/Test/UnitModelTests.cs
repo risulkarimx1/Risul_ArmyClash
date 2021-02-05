@@ -1,5 +1,6 @@
 using System.Linq;
 using Assets.Code.Sources.Constants;
+using Assets.Code.Sources.Managers;
 using Assets.Code.Sources.Units;
 using Assets.Code.Sources.Units.UnitConfiguration;
 using NUnit.Framework;
@@ -17,6 +18,8 @@ namespace Code.Editor.Test
             Container.Bind<ColorToShapeMappingData>().FromScriptableObjectResource(Constants.ColorToShapeMapPath)
                 .AsSingle();
             Container.Bind<UnitConfigurationsData>().FromScriptableObjectResource(Constants.UnitConfigurationDataPath)
+                .AsSingle();
+            Container.Bind<GameSettings>().FromScriptableObjectResource(Constants.GameSettingsPath)
                 .AsSingle();
 
             Container.BindInterfacesAndSelfTo<UnitColorToShapeDataAccess>().AsSingle();
@@ -41,11 +44,12 @@ namespace Code.Editor.Test
         {
             var unitConfigurationsData = Container.Resolve<UnitConfigurationsData>();
             var colorMapDataAccess = Container.Resolve<UnitColorToShapeDataAccess>();
+            var gameSettings = Container.Resolve<GameSettings>();
             
             var blueColorModel = unitConfigurationsData.ColorModels.FirstOrDefault(c => c.ColorType == ColorType.Blue);
             var smallSizeModel = unitConfigurationsData.SizeModels.FirstOrDefault(s => s.SizeType == SizeType.Small);
             var cubeShapeModel = unitConfigurationsData.ShapeModels.FirstOrDefault(s => s.ShapeType == ShapeType.Cube);
-            var unitModel = new UnitModel(blueColorModel, cubeShapeModel, smallSizeModel, colorMapDataAccess);
+            var unitModel = new UnitModel(blueColorModel, cubeShapeModel, smallSizeModel, colorMapDataAccess, gameSettings.InitHp, gameSettings.InitAtk);
             unitModel.Configure();
             
             var attack = unitModel.Atk;

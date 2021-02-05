@@ -24,3 +24,9 @@ MonoBehaviour:
     _width: 10
     _length: 10
     _rotation: {x: 0, y: 180, z: 0}
+  _initHp: 100
+  _minHp: 150
+  _maxHp: 450
+  _initAtk: 10
+  _minAtk: 30
+  _maxAtk: 70

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Code.Sources.Managers;
+using UnityEngine;
 
 namespace Assets.Code.Sources.Units.UnitConfiguration
 {
@@ -6,11 +7,13 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
     {
         private readonly UnitConfigurationsData _configData;
         private readonly UnitColorToShapeDataAccess _colorToShapeMapDataAccess;
+        private readonly GameSettings _gameSettings;
 
-        public RandomUnitConfigGenerator(UnitConfigurationsData configData, UnitColorToShapeDataAccess colorToShapeMapDataAccess)
+        public RandomUnitConfigGenerator(UnitConfigurationsData configData, UnitColorToShapeDataAccess colorToShapeMapDataAccess, GameSettings gameSettings)
         {
             _configData = configData;
             _colorToShapeMapDataAccess = colorToShapeMapDataAccess;
+            _gameSettings = gameSettings;
         }
 
         private ColorModel GetRandomColor =>
@@ -29,7 +32,7 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
 
         public UnitModel GetRandomModel()
         {
-            return new UnitModel(GetRandomColor, GetRandomShape, GetRandomSize, _colorToShapeMapDataAccess);
+            return new UnitModel(GetRandomColor, GetRandomShape, GetRandomSize, _colorToShapeMapDataAccess, _gameSettings.InitHp, _gameSettings.InitAtk);
         }
     }
 }
