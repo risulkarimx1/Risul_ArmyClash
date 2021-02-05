@@ -1,30 +1,34 @@
 ﻿using System;
 using Assets.Code.Sources.GameStateMachine;
+using Assets.Code.Sources.Managers;
 using Assets.Code.Sources.Signals;
 using UniRx;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 
 namespace Assets.Code.Sources.Units
 {
     public class UnitWeapon
     {
         private readonly SignalBus _signalBus;
+        private readonly GameSettings _gameSettings;
         private IDisposable _fireHandle;
         private UnitSide _unitSide;
         private UnitView _unitView;
         private bool _isDisposed;
-        
-        public UnitWeapon(SignalBus signalBus)
+        private float _attackSpeed;
+
+        public UnitWeapon(SignalBus signalBus, GameSettings gameSettings)
         {
             _signalBus = signalBus;
+            _gameSettings = gameSettings;
         }
-        
-        public void Configure(UnitView viewComponent, UnitSide unitSide)
+
+        public void Configure(UnitView viewComponent, UnitSide unitSide, float attackSpeed)
         {
             _unitView = viewComponent;
             _unitSide = unitSide;
+            _attackSpeed = attackSpeed;
             _signalBus.Subscribe<GameStateChangeSignal>(GameStateChanged);
         }
 
@@ -43,26 +47,20 @@ namespace Assets.Code.Sources.Units
 
         private void StartFiring(UnitView viewComponent, UnitSide ownSide)
         {
-            // TODO : Fix magic numbers
-            var random = Random.Range(0.5f, 1);
-            _fireHandle = Observable.
-                Interval(TimeSpan.FromSeconds(random))
+            _fireHandle = Observable.Interval(TimeSpan.FromSeconds(_attackSpeed))
                 .Subscribe(_ =>
                 {
                     Fire(ownSide, viewComponent);
                 }).AddTo(viewComponent);
-            
+
             _isDisposed = false;
         }
 
         private void Fire(UnitSide ownSide, UnitView view)
         {
-            var staringPosition = view.Position + view.transform.forward.normalized * 2;
-            Debug.DrawRay(staringPosition, view.Transform.forward);
-            if (Physics.Raycast(view.Position, view.Transform.forward, out var hit,
-                3, Constants.Constants.UnitLayer))
+            if (Physics.Raycast(view.Position, view.Transform.forward, out var hit, _gameSettings.WeaponRange, Constants.Constants.UnitLayer))
             {
-                _signalBus.Fire(new UnitHitSignal()
+                _signalBus.Fire(new UnitHitSignal
                 {
                     OwnSide = ownSide,
                     UnitId = hit.collider.gameObject.GetInstanceID()

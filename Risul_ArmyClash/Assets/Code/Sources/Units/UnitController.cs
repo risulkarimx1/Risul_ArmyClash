@@ -1,4 +1,5 @@
-﻿using Assets.Code.Sources.Signals;
+﻿using Assets.Code.Sources.Managers;
+using Assets.Code.Sources.Signals;
 using Unity.Mathematics;
 using UnityEngine;
 using Zenject;
@@ -13,6 +14,7 @@ namespace Assets.Code.Sources.Units
         private readonly UnitSide _unitSide;
         private readonly UnitWeapon _unitWeapon;
         private readonly SignalBus _signalBus;
+        private readonly GameSettings _gameSettings;
 
         public UnitSide UnitSide => _unitSide;
         public Transform Transform => _unitView.Transform;
@@ -23,16 +25,18 @@ namespace Assets.Code.Sources.Units
             UnitView unitView, 
             UnitSide unitSide, 
             UnitWeapon unitWeapon, 
-            SignalBus signalBus)
+            SignalBus signalBus,
+            GameSettings gameSettings)
         {
             _unitModel = unitModel;
             _unitView = unitView;
             _unitSide = unitSide;
             _unitWeapon = unitWeapon;
             _signalBus = signalBus;
+            _gameSettings = gameSettings;
             _unitModel.Configure();
             _unitView.Configure(_unitModel);
-            _unitWeapon.Configure(unitView,unitSide);
+            _unitWeapon.Configure(unitView,unitSide, _unitModel.AttackSpeed);
         }
 
         public void Configure(UnitModel unitModel)
@@ -56,11 +60,9 @@ namespace Assets.Code.Sources.Units
 
         public void Hit()
         {
-            _unitView.Rigidbody.AddRelativeForce( 
-                - _unitView.Transform.forward + 
-                (Vector3.right * Random.Range(-3, 3)) 
-                * Random.Range(5,10), ForceMode.Impulse);
-            _unitModel.Hp.Value-=50;
+            _unitView.Rigidbody.AddRelativeForce(HitForce, ForceMode.Impulse);
+            
+            _unitModel.Hp.Value-=_gameSettings.WeaponDamage;
             if (_unitModel.Hp.Value <= 0)
             {
                 KillUnit();
@@ -83,5 +85,7 @@ namespace Assets.Code.Sources.Units
             _unitWeapon.Destroy();
             _unitView.SetActive(false);
         }
+
+        private Vector3 HitForce => -(_unitView.Transform.forward * Random.Range(5, 10) )+ (Vector3.right * Random.Range(-3, 3));
     }
 }

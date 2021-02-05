@@ -33,6 +33,10 @@ namespace Assets.Code.Sources.Managers
         [SerializeField] private float _minAtkSpeed;
         [SerializeField] private float _maxAtkSpeed;
 
+        [Header("Weapon Settings")] 
+        [SerializeField] private float _weaponDamage;
+        [SerializeField] private float _weaponRange;
+
         public int GuildSizeA => _guildSizeA;
         public int GuildSizeB => _guildSizeB;
         public GuildPositioningModel GuildPositionA => _guildPositionA;
@@ -50,5 +54,9 @@ namespace Assets.Code.Sources.Managers
         public float MaxMovementSpeed => _maxMovementSpeed;
         public float MinAtkSpeed => _minAtkSpeed;
         public float MaxAtkSpeed => _maxAtkSpeed;
+
+        public float WeaponDamage => _weaponDamage;
+
+        public float WeaponRange => _weaponRange;
     }
 }

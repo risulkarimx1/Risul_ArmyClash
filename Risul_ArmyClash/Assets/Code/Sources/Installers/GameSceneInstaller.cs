@@ -1,4 +1,5 @@
 using Assets.Code.Sources.BattleSimulation;
+using Assets.Code.Sources.Camera;
 using Assets.Code.Sources.GameSceneUi;
 using Assets.Code.Sources.GameStateMachine;
 using Assets.Code.Sources.Guild;
@@ -54,6 +55,9 @@ namespace Assets.Code.Sources.Installers
             Container.BindInterfacesAndSelfTo<BattleSimulation.BattleSimulation>().AsSingle();
             Container.Bind<TargetAssignment>().AsSingle();
             Container.Bind<ProximalMovement>().AsSingle();
+            
+            // Camera Follow
+            Container.BindInterfacesAndSelfTo<FollowCamera>().AsSingle();
             
             // Game Scene Manager
             Container.BindInterfacesAndSelfTo<GameSceneManager>().AsSingle();
