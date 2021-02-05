@@ -1,32 +1,34 @@
 ﻿using Unity.Mathematics;
 using UnityEngine;
+using Zenject;
+using Random = UnityEngine.Random;
 
 namespace Assets.Code.Sources.Units
 {
-    public class UnitController: IUnitController
+    public class UnitController : IUnitController
     {
         private UnitModel _unitModel;
         private readonly UnitView _unitView;
         private readonly UnitSide _unitSide;
-        
-        public UnitSide UnitSide => _unitSide;
+        private readonly UnitWeapon _unitWeapon;
+        private bool _isAlive;
 
+        public UnitSide UnitSide => _unitSide;
         public bool IsAlive => _isAlive;
         public Transform Transform => _unitView.Transform;
         public float Size => _unitModel.SizeModel.SizeFactor;
 
-        private bool _isAlive;
-
-        public UnitController(UnitModel unitModel, UnitView unitView,UnitSide unitSide)
+        public UnitController(UnitModel unitModel, UnitView unitView, UnitSide unitSide, UnitWeapon unitWeapon)
         {
             _unitModel = unitModel;
             _unitView = unitView;
             _unitSide = unitSide;
+            _unitWeapon = unitWeapon;
             _unitModel.Configure();
             _unitView.Configure(_unitModel);
             _isAlive = true;
+            _unitWeapon.Configure(unitView,unitSide);
         }
-
 
         public void Configure(UnitModel unitModel)
         {
@@ -39,6 +41,22 @@ namespace Assets.Code.Sources.Units
         {
             get => _unitView.Position;
             set => _unitView.Position = value;
+        }
+
+        public float3 Rotation
+        {
+            get => _unitView.Transform.eulerAngles;
+            set => _unitView.Transform.eulerAngles = value;
+        }
+
+        public void Hit()
+        {
+            _unitView.Rigidbody.AddRelativeForce( - _unitView.Transform.forward * Random.Range(10,20), ForceMode.Impulse);
+        }
+
+        public int GetId()
+        {
+            return _unitView.GetID();
         }
 
         public void KillUnit()

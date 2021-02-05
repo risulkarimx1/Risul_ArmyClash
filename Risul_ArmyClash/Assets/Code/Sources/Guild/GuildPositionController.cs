@@ -33,6 +33,19 @@ namespace Assets.Code.Sources.Guild
             return Vector3.one;
         }
 
+        public Vector3 GetRotation(UnitSide unitSide)
+        {
+            switch (unitSide)
+            {
+                case UnitSide.SideA:
+                    return _gameSettings.GuildPositionA.Rotation;
+                case UnitSide.SideB:
+                    return _gameSettings.GuildPositionB.Rotation;
+            }
+            
+            return Vector3.zero;
+        }
+        
         private Vector3 RandomPosition(GuildPositioningModel positionModel)
         {
             var x = positionModel.Center.x + Random.Range(-positionModel.Width, positionModel.Width);

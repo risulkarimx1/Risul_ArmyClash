@@ -13,25 +13,23 @@ MonoBehaviour:
   m_Name: UnitConfigurationData
   m_EditorClassIdentifier: 
   _shapeModels:
-  - _hp: 100
+  - _shapeType: 0
+    _shapeObject: {fileID: 4770075386179830782, guid: 1c5da439220cced4899607d7bb19880f,
+      type: 3}
+    _hp: 100
     _atk: 10
-    _shapeType: 0
-    _shapeObject: {fileID: 4222880798461599177, guid: 2a156f68ee7c19e4f85dd02b292eb04d,
+  - _shapeType: 1
+    _shapeObject: {fileID: 8120924224307300401, guid: fee90f89e24b3a1469c0bbf1ea77dd22,
       type: 3}
-  - _hp: 50
+    _hp: 50
     _atk: 20
-    _shapeType: 1
-    _shapeObject: {fileID: 2218380598913920404, guid: 249637c6332043f43888eef9116ee73b,
-      type: 3}
   _sizeModels:
-  - _hp: 50
-    _atk: 0
-    _sizeType: 1
+  - _sizeType: 1
     _sizeFactor: 2
-  - _hp: -50
-    _atk: 0
-    _sizeType: 0
+    _hp: 50
+  - _sizeType: 0
     _sizeFactor: 1
+    _hp: -50
   _colorModel:
   - _colorType: 0
     _color: {r: 0.06074228, g: 0.8317539, b: 0.990566, a: 0}

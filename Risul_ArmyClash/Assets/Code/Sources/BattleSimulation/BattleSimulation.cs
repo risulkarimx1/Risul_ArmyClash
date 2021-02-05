@@ -64,10 +64,12 @@ namespace Assets.Code.Sources.BattleSimulation
                 _guildManager.RemoveUnit(bunit);
             }
 
+            // Target Job
             var nearestPos = _targetAssignment.LocateNearest(
                 _guildManager.GetGuildPositions(UnitSide.SideA),
                 _guildManager.GetGuildPositions(UnitSide.SideB));
 
+            // Reposition Job
             _proximalMovement.MovementToNearest(
                 _guildManager.GetUnitTransforms(UnitSide.SideA),
                 nearestPos.closeToA, _guildManager.GetUnitSize(UnitSide.SideA));
@@ -75,20 +77,7 @@ namespace Assets.Code.Sources.BattleSimulation
                 _guildManager.GetUnitTransforms(UnitSide.SideB), 
                 nearestPos.closeToB, 
                 _guildManager.GetUnitSize(UnitSide.SideA));
-
-            // var guildATarget = nearestPos.closeToA;
-            // for (int i = 0; i < _guildManager.GuildAList.Count; i++)
-            // {
-            //     _guildManager.GuildAList[i].Position = Vector3.Lerp(_guildManager.GuildAList[i].Position,
-            //         guildATarget[i], Time.deltaTime / 2);
-            // }
-            //
-            // var guildBTarget = nearestPos.closeToB;
-            // for (int i = 0; i < _guildManager.GuildBList.Count; i++)
-            // {
-            //     _guildManager.GuildBList[i].Position = Vector3.Lerp(_guildManager.GuildBList[i].Position,
-            //         guildBTarget[i], Time.deltaTime / 2);
-            // }
+            
         }
 
         public void Dispose()

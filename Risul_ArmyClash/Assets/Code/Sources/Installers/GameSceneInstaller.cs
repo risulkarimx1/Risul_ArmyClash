@@ -23,13 +23,16 @@ namespace Assets.Code.Sources.Installers
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<GameStateChangeSignal>();
             Container.DeclareSignal<UnitShuffleSignal>();
+            Container.DeclareSignal<UnitHitSignal>();
             
             // computed configs objects
             Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
             // Game State Machine
             Container.Bind<GameState>().AsSingle();
-            
-            // Unit Factory
+
+            // Unit Weapon and Unit Factory Factory
+            Container.Bind<UnitHitHandler>().AsSingle();
+            Container.BindInterfacesAndSelfTo<UnitWeapon>().AsTransient().WhenInjectedInto<UnitController>();
             Container.BindFactory<UnitSide, IUnitController, UnitFactory>().FromFactory<RandomUnitGenerationFactory>();
             
             // Guild Systems

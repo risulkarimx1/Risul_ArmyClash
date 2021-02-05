@@ -18,6 +18,7 @@ namespace Assets.Code.Sources.Guild
         private readonly GameSettings _gameSettings;
         private readonly UnitFactory _unitFactory;
         private readonly GuildPositionController _guildPositionController;
+        private readonly UnitHitHandler _unitHitHandler;
         private readonly SignalBus _signalBus;
         private readonly List<IUnitController> _guildAList;
         private readonly List<IUnitController> _guildBList;
@@ -26,12 +27,14 @@ namespace Assets.Code.Sources.Guild
             GameSettings gameSettings,
             UnitFactory unitFactory,
             GuildPositionController guildPositionController,
+            UnitHitHandler unitHitHandler,
             SignalBus signalBus)
         {
             _unitConfigGenerator = unitConfigGenerator;
             _gameSettings = gameSettings;
             _unitFactory = unitFactory;
             _guildPositionController = guildPositionController;
+            _unitHitHandler = unitHitHandler;
             _signalBus = signalBus;
             _guildAList = new List<IUnitController>();
             _guildBList = new List<IUnitController>();
@@ -60,7 +63,8 @@ namespace Assets.Code.Sources.Guild
             void SetPosition(UnitSide unitSide)
             {
                 var unit = _unitFactory.Create(unitSide);
-                unit. Position = _guildPositionController.GetRandomPosition(unitSide);
+                unit.Position = _guildPositionController.GetRandomPosition(unitSide);
+                unit.Rotation = _guildPositionController.GetRotation(unitSide);
                 AddUnit(unit);
             }
 
@@ -86,21 +90,22 @@ namespace Assets.Code.Sources.Guild
                     GuildBList.Add(unitController);
                     break;
             }
+            
+            _unitHitHandler.AddToMap(unitController);
         }
 
         public void RemoveUnit(IUnitController unitController)
         {
-            unitController.KillUnit();
-
-            if (unitController.UnitSide == UnitSide.SideA)
+            switch (unitController.UnitSide)
             {
-                GuildAList.Remove(unitController);
-                unitController.KillUnit();
-            }
-            else if (unitController.UnitSide == UnitSide.SideB)
-            {
-                GuildBList.Remove(unitController);
-                unitController.KillUnit();
+                case UnitSide.SideA:
+                    GuildAList.Remove(unitController);
+                    unitController.KillUnit();
+                    break;
+                case UnitSide.SideB:
+                    GuildBList.Remove(unitController);
+                    unitController.KillUnit();
+                    break;
             }
         }
 

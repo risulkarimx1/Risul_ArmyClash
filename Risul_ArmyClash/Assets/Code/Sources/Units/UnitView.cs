@@ -9,15 +9,20 @@ namespace Assets.Code.Sources.Units
         private MeshFilter _meshFilter;
         private Transform _transform;
         private static readonly int Color = Shader.PropertyToID("_Color");
-
+        private Rigidbody _rigidbody;
+        
+        public Transform Transform => _transform;
+        public Rigidbody Rigidbody => _rigidbody;
+        public void SetActive(bool state) => gameObject.SetActive(state);
 
         private void Awake()
         {
             _renderer = GetComponent<Renderer>();
             _meshFilter = GetComponent<MeshFilter>();
             _transform = GetComponent<Transform>();
+            _rigidbody = GetComponent<Rigidbody>();
         }
-        
+
         public void Configure(UnitModel unitModel)
         {
             _meshFilter.sharedMesh = unitModel.ShapeModel.MeshFilter.sharedMesh;
@@ -31,9 +36,9 @@ namespace Assets.Code.Sources.Units
             set => _transform.position = value;
         }
 
-        public Transform Transform => _transform;
-
-        public void SetActive(bool state) => gameObject.SetActive(state);
-        
+        public int GetID()
+        {
+            return gameObject.GetInstanceID();
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Assets.Code.Sources.Constants
+﻿using UnityEngine;
+
+namespace Assets.Code.Sources.Constants
 {
     public static class Constants
     {
@@ -9,5 +11,6 @@
         public const string UnitConfigurationDataPath = "Data/UnitConfigs/UnitConfigurationData";
         public static string ColorMapJsonFilePath => "ColorMap";
         public static string GameSettingsPath = "Data/Settings/Game Settings";
+        public static LayerMask UnitLayer = 1 << 9;
     }
 }
