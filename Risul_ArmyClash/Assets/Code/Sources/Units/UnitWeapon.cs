@@ -48,17 +48,15 @@ namespace Assets.Code.Sources.Units
         private void StartFiring(UnitView viewComponent, UnitSide ownSide)
         {
             _fireHandle = Observable.Interval(TimeSpan.FromSeconds(_attackSpeed))
-                .Subscribe(_ =>
-                {
-                    Fire(ownSide, viewComponent);
-                }).AddTo(viewComponent);
+                .Subscribe(_ => { Fire(ownSide, viewComponent); }).AddTo(viewComponent);
 
             _isDisposed = false;
         }
 
         private void Fire(UnitSide ownSide, UnitView view)
         {
-            if (Physics.Raycast(view.Position, view.Transform.forward, out var hit, _gameSettings.WeaponRange, Constants.Constants.UnitLayer))
+            if (Physics.Raycast(view.Position, view.Transform.forward, out var hit, _gameSettings.WeaponRange,
+                Constants.Constants.UnitLayer))
             {
                 _signalBus.Fire(new UnitHitSignal
                 {

@@ -126,7 +126,6 @@ namespace Assets.Code.Sources.GameSceneUi
                 {
                     _gameSceneUiView.SetEndModeUi("Team B Won!");
                 }
-                
             }
         }
 

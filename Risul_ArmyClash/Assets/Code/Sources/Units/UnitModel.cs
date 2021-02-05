@@ -54,17 +54,17 @@ namespace Assets.Code.Sources.Units
             _hp.Subscribe(value =>
             {
                 _movementSpeed = value.Remap(
-                    settings.MinHp, 
-                    settings.MaxHp, 
+                    settings.MinHp,
+                    settings.MaxHp,
                     settings.MinMovementSpeed,
                     settings.MaxMovementSpeed);
             }).AddTo(disposable);
 
             _atk.Subscribe(value =>
             {
-                _attackSpeed = value.Remap(settings.MinAtk, 
-                    settings.MaxAtk, 
-                    settings.MinAtkSpeed, 
+                _attackSpeed = value.Remap(settings.MinAtk,
+                    settings.MaxAtk,
+                    settings.MinAtkSpeed,
                     settings.MaxAtkSpeed);
             }).AddTo(disposable);
         }

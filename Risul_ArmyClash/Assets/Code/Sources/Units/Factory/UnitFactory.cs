@@ -2,5 +2,7 @@
 
 namespace Assets.Code.Sources.Units.Factory
 {
-    public class UnitFactory : PlaceholderFactory<UnitSide,IUnitController> { }
+    public class UnitFactory : PlaceholderFactory<UnitSide, IUnitController>
+    {
+    }
 }

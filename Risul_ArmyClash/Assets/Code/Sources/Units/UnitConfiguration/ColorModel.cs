@@ -8,7 +8,7 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
     {
         [SerializeField] private ColorType _colorType;
         [SerializeField] private Color _color;
-        
+
         public Color Color => _color;
         public ColorType ColorType => _colorType;
 

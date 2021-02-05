@@ -2,6 +2,7 @@
 {
     public enum ShapeType
     {
-        Cube, Sphere
+        Cube,
+        Sphere
     }
 }

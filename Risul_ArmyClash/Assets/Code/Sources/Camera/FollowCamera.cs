@@ -12,7 +12,7 @@ namespace Assets.Code.Sources.Camera
         private readonly GuildManager _guildManager;
         private readonly SignalBus _signalBus;
         private readonly GameState _gameState;
-        private Transform _cameraTransform;
+        private readonly Transform _cameraTransform;
         private Vector3 _offset;
         public FollowCamera(GuildManager guildManager, SignalBus signalBus, GameState gameState)
         {

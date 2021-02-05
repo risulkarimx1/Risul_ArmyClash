@@ -25,6 +25,9 @@ namespace Assets.Code.Sources.Guild
         private readonly List<IUnitController> _guildAList;
         private readonly List<IUnitController> _guildBList;
 
+        public List<IUnitController> GuildAList => _guildAList;
+        public List<IUnitController> GuildBList => _guildBList;
+
         public GuildManager(IUnitConfigGenerator unitConfigGenerator,
             GameSettings gameSettings,
             UnitFactory unitFactory,
@@ -45,10 +48,6 @@ namespace Assets.Code.Sources.Guild
             _signalBus.Subscribe<UnitShuffleSignal>(OnUnitShuffled);
             _signalBus.Subscribe<UnitKilledSignal>(OnUnitKilled);
         }
-
-        public List<IUnitController> GuildAList => _guildAList;
-
-        public List<IUnitController> GuildBList => _guildBList;
 
         private void OnUnitShuffled(UnitShuffleSignal unitShuffleSignal)
         {
@@ -95,7 +94,7 @@ namespace Assets.Code.Sources.Guild
                     GuildBList.Add(unitController);
                     break;
             }
-            
+
             _unitHitHandler.AddToMap(unitController);
         }
 
@@ -121,7 +120,7 @@ namespace Assets.Code.Sources.Guild
                 TeamAScore = _gameSettings.GuildSizeB - GuildBList.Count,
                 TeamBScore = _gameSettings.GuildSizeA - GuildAList.Count
             });
-            
+
             if (GuildAList.Count <= 0 || GuildBList.Count <= 0)
             {
                 _gameState.CurrentState = State.EndBattle;
@@ -156,13 +155,13 @@ namespace Assets.Code.Sources.Guild
                 case UnitSide.SideA:
                     GuildAList.ForEach(unit =>
                     {
-                        unit.Position= _guildPositionController.GetRandomPosition(unitSide);
+                        unit.Position = _guildPositionController.GetRandomPosition(unitSide);
                     });
                     break;
                 case UnitSide.SideB:
                     GuildBList.ForEach(unit =>
                     {
-                        unit.Position =(_guildPositionController.GetRandomPosition(unitSide));
+                        unit.Position = (_guildPositionController.GetRandomPosition(unitSide));
                     });
                     break;
             }

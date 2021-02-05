@@ -11,7 +11,7 @@ namespace Assets.Code.Sources.Units
         float3 Rotation { get; set; }
         Transform Transform { get; }
         float Size { get; }
-        float MovementSpeed { get;}
+        float MovementSpeed { get; }
         void Hit();
         int GetId();
     }

@@ -2,6 +2,7 @@
 {
     public enum SizeType
     {
-        Small, Big
+        Small,
+        Big
     }
 }

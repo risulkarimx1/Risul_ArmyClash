@@ -2,6 +2,9 @@
 {
     public enum ColorType
     {
-        Blue, Yellow, Green, Red
+        Blue,
+        Yellow,
+        Green,
+        Red
     }
 }

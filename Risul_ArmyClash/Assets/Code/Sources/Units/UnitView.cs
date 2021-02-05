@@ -12,7 +12,7 @@ namespace Assets.Code.Sources.Units
         private Transform _transform;
         private static readonly int Color = Shader.PropertyToID("_Color");
         private Rigidbody _rigidbody;
-        
+
         public Transform Transform => _transform;
         public Rigidbody Rigidbody => _rigidbody;
         public void SetActive(bool state) => gameObject.SetActive(state);

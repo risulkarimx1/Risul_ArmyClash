@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Assets.Code.Sources.Units
 {
-    public class UnitHitHandler: IDisposable
+    public class UnitHitHandler : IDisposable
     {
         private readonly SignalBus _signalBus;
         private Dictionary<int, IUnitController> _unitViewToControllerMap;
@@ -26,7 +26,7 @@ namespace Assets.Code.Sources.Units
             }
         }
 
-        public void AddToMap( IUnitController unitController)
+        public void AddToMap(IUnitController unitController)
         {
             _unitViewToControllerMap.Add(unitController.GetId(), unitController);
         }

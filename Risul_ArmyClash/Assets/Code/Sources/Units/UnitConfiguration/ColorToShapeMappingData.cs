@@ -12,15 +12,16 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
     {
         [SerializeField] private List<ColorToShapeMapModel> _colorToShapeMap = new List<ColorToShapeMapModel>();
         [SerializeField] private UnitConfigurationsData _unitConfigurationsData;
-        
+
         public UnitConfigurationsData ConfigurationsData => _unitConfigurationsData;
         public List<ColorToShapeMapModel> ColorToShapeMap => _colorToShapeMap;
 
         public void ExpandTable()
         {
-            if(_colorToShapeMap.Count <= 0) return;
-            
-            _unitConfigurationsData = Resources.Load<UnitConfigurationsData>(Constants.Constants.UnitConfigurationDataPath);
+            if (_colorToShapeMap.Count <= 0) return;
+
+            _unitConfigurationsData =
+                Resources.Load<UnitConfigurationsData>(Constants.Constants.UnitConfigurationDataPath);
             int index = 0;
             foreach (var shapeModel in _unitConfigurationsData.ShapeModels)
             {
@@ -45,7 +46,8 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
 
         public void ResetTable()
         {
-            _unitConfigurationsData = Resources.Load<UnitConfigurationsData>(Constants.Constants.UnitConfigurationDataPath);
+            _unitConfigurationsData =
+                Resources.Load<UnitConfigurationsData>(Constants.Constants.UnitConfigurationDataPath);
             ColorToShapeMap.Clear();
 
             foreach (var shapeModel in _unitConfigurationsData.ShapeModels)
@@ -66,13 +68,15 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
 
         public ColorToShapeMapModel GetColorShapeMappedModel(ShapeModel shapeModel, ColorModel colorModel)
         {
-            var mapModel = ColorToShapeMap.FirstOrDefault(c => c.ShapeType == shapeModel.ShapeType && c.ColorType == colorModel.ColorType);
-            
+            var mapModel = ColorToShapeMap.FirstOrDefault(c =>
+                c.ShapeType == shapeModel.ShapeType && c.ColorType == colorModel.ColorType);
+
             if (mapModel == null)
             {
-                Debug.LogError($"No Mapping Found For this Combination. Generate the Matrix at {Constants.Constants.ColorToShapeMapPath}");
+                Debug.LogError(
+                    $"No Mapping Found For this Combination. Generate the Matrix at {Constants.Constants.ColorToShapeMapPath}");
             }
-            
+
             return mapModel;
         }
 
@@ -94,7 +98,7 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
                 var fs = new FileStream(Constants.Constants.ColorMapJsonFilePath, FileMode.Create);
                 fs.Dispose();
             }
-            
+
             File.WriteAllText(Constants.Constants.ColorMapJsonFilePath, jsonString);
             Debug.Log($"Saved File at {Constants.Constants.ColorMapJsonFilePath}");
             Debug.Log($"{jsonString}");

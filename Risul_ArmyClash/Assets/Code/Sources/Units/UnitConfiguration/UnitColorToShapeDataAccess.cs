@@ -3,7 +3,7 @@
     public class UnitColorToShapeDataAccess
     {
         private readonly ColorToShapeMappingData _colorToShapeMappingData;
-        
+
         public UnitColorToShapeDataAccess(ColorToShapeMappingData colorToShapeMappingData)
         {
             _colorToShapeMappingData = colorToShapeMappingData;

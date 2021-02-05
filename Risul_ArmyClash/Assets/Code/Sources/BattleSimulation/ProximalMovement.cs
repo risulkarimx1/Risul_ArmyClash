@@ -5,29 +5,6 @@ using UnityEngine.Jobs;
 
 namespace Assets.Code.Sources.BattleSimulation
 {
-    public struct ProximalMovementJob : IJobParallelForTransform
-    {
-        public NativeArray<float3> Destinations;
-        [ReadOnly]
-        public NativeList<float> UnitSizes;
-        [ReadOnly]
-        public NativeList<float> MovementSpeeds;
-        public float DeltaTime;
-
-        public void Execute(int index, TransformAccess transform)
-        {
-            if (Vector3.Distance(transform.position, Destinations[index]) > UnitSizes[index] * 2)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, Destinations[index], DeltaTime * MovementSpeeds[index]);
-            }
-            
-            var lookPos = Destinations[index] - (float3)transform.position;
-            lookPos.y = 0;
-            var rotation = Quaternion.LookRotation(lookPos);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, DeltaTime * 10);
-        }
-    }
-
     public class ProximalMovement
     {
         public void MovementToNearest(Transform[] unitTransforms,

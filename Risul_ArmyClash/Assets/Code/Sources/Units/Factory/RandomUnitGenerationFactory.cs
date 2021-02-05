@@ -35,7 +35,7 @@ namespace Assets.Code.Sources.Units.Factory
                 _colorToShapeDataAccess,
                 _gameSetting,
                 _disposable);
-            
+
             unitView.gameObject.name = $"{unitSide} - {unitModel}";
             return _container.Instantiate<UnitController>(new object[] {unitModel, unitView, unitSide});
         }

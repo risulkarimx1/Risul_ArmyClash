@@ -7,11 +7,10 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
     public class SizeModel
     {
         [SerializeField] private SizeType _sizeType;
-        [Range(1,2)]
-        [SerializeField] private float _sizeFactor;
+        [Range(1, 2)] [SerializeField] private float _sizeFactor;
 
         [SerializeField] protected float _hp;
-        
+
         public float Hp => _hp;
         public SizeType SizeType => _sizeType;
 

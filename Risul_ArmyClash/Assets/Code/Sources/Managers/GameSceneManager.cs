@@ -1,12 +1,11 @@
-﻿using System;
-using Assets.Code.Sources.GameStateMachine;
+﻿using Assets.Code.Sources.GameStateMachine;
 using Assets.Code.Sources.Guild;
 using UniRx;
 using Zenject;
 
 namespace Assets.Code.Sources.Managers
 {
-    public class GameSceneManager: IInitializable, ILateDisposable
+    public class GameSceneManager : IInitializable, ILateDisposable
     {
         private readonly GuildManager _guildManager;
         private readonly GameState _gameState;

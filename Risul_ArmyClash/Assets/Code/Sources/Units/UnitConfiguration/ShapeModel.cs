@@ -8,7 +8,7 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
     {
         [SerializeField] private ShapeType _shapeType;
         [SerializeField] private GameObject _shapeObject;
-        
+
         [SerializeField] protected float _hp;
         [SerializeField] protected float _atk;
 

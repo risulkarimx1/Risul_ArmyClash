@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1806756264329547541}
   - component: {fileID: 5836947562807695268}
   m_Layer: 9
-  m_Name: Cube
+  m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212955254907434140}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.54}
-  m_LocalScale: {x: 0.46428, y: 0.46428, z: 1.2875878}
+  m_LocalPosition: {x: -0.458, y: 0, z: 0.618}
+  m_LocalScale: {x: 0.16155086, y: 0.16155086, z: 0.44802904}
   m_Children: []
   m_Father: {fileID: 9101605181534652811}
   m_RootOrder: 0
