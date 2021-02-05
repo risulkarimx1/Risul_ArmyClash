@@ -1,10 +1,12 @@
-﻿using Unity.Collections;
+﻿using Unity.Burst;
+using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace Assets.Code.Sources.BattleSimulation
 {
+    [BurstCompile]
     public struct PositionSeekingJob : IJob
     {
         public NativeList<float3> GuildAPositions;
@@ -14,12 +16,14 @@ namespace Assets.Code.Sources.BattleSimulation
 
         public void Execute()
         {
-            foreach (var aPos in GuildAPositions)
+            for (var i = 0; i < GuildAPositions.Length; i++)
             {
+                var aPos = GuildAPositions[i];
                 float minDistance = 65536;
                 var destination = float3.zero;
-                foreach (var bPos in GuildBPositions)
+                for (var j = 0; j < GuildBPositions.Length; j++)
                 {
+                    var bPos = GuildBPositions[j];
                     var distance = Vector3.Distance(aPos, bPos);
                     if (distance < minDistance)
                     {
@@ -31,12 +35,14 @@ namespace Assets.Code.Sources.BattleSimulation
                 ClosestListA.Add(destination);
             }
 
-            foreach (var bPos in GuildBPositions)
+            for (var i = 0; i < GuildBPositions.Length; i++)
             {
+                var bPos = GuildBPositions[i];
                 float minDistance = 65536;
                 float3 destination = float3.zero;
-                foreach (var aPos in GuildAPositions)
+                for (var j = 0; j < GuildAPositions.Length; j++)
                 {
+                    var aPos = GuildAPositions[j];
                     var distance = Vector3.Distance(aPos, bPos);
                     if (distance < minDistance)
                     {

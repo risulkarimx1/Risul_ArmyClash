@@ -1,10 +1,12 @@
-﻿using Unity.Collections;
+﻿using Unity.Burst;
+using Unity.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Jobs;
 
 namespace Assets.Code.Sources.BattleSimulation
 {
+    [BurstCompile]
     public struct ProximalMovementJob : IJobParallelForTransform
     {
         public NativeArray<float3> Destinations;
