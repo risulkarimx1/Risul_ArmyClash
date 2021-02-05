@@ -29,6 +29,7 @@ namespace Assets.Code.Sources.Installers
             Container.DeclareSignal<UnitShuffleSignal>();
             Container.DeclareSignal<UnitHitSignal>();
             Container.DeclareSignal<UnitKilledSignal>();
+            Container.DeclareSignal<GuildScoreUpdatedSignal>();
             
             // computed configs objects
             Container.Bind<IUnitConfigGenerator>().To<RandomUnitConfigGenerator>().AsSingle();
@@ -45,6 +46,7 @@ namespace Assets.Code.Sources.Installers
             Container.Bind<GuildManager>().AsSingle();
 
             // Ui Bindings
+            Container.Bind<GameSceneUiModel>().AsSingle().NonLazy();
             Container.Bind<GameSceneUiView>().FromComponentInNewPrefab(_gameSceneUiView).AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<GameSceneUiController>().AsSingle().NonLazy();
             

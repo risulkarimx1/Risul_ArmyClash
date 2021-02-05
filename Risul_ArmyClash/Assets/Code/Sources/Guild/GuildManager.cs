@@ -116,6 +116,12 @@ namespace Assets.Code.Sources.Guild
                     break;
             }
 
+            _signalBus.Fire(new GuildScoreUpdatedSignal
+            {
+                TeamAScore = _gameSettings.GuildSizeB - GuildBList.Count,
+                TeamBScore = _gameSettings.GuildSizeA - GuildAList.Count
+            });
+            
             if (GuildAList.Count <= 0 || GuildBList.Count <= 0)
             {
                 _gameState.CurrentState = State.EndBattle;

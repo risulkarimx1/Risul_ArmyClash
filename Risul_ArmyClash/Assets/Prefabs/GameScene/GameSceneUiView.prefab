@@ -751,7 +751,7 @@ MonoBehaviour:
   guildBRandomPositionButton: {fileID: 3324735435772585806}
   _battleUiPanel: {fileID: 3439126153013295478}
   _teamAScoreText: {fileID: 2118444801052902628}
-  _teamBScroreText: {fileID: 4389734898126009190}
+  teamBScoreText: {fileID: 4389734898126009190}
   _gameOverPanel: {fileID: 346266923131103460}
   _matchResultText: {fileID: 7395897517867007540}
   _resetButton: {fileID: 4131542127823646981}

@@ -19,7 +19,7 @@ namespace Assets.Code.Sources.GameSceneUi
         [Header("Battle Ui")]
         [SerializeField] private GameObject _battleUiPanel;
         [SerializeField] private TextMeshProUGUI _teamAScoreText;
-        [SerializeField] private TextMeshProUGUI _teamBScroreText;
+        [SerializeField] private TextMeshProUGUI teamBScoreText;
         
         [Space(10)]
         [Header("Game Over Ui")]
@@ -39,6 +39,9 @@ namespace Assets.Code.Sources.GameSceneUi
 
         public Button HomeButton => _homeButton;
 
+        public TextMeshProUGUI TeamAScoreText => _teamAScoreText;
+        public TextMeshProUGUI TeamBScoreText => teamBScoreText;
+
         public void SetInitializeUi()
         {
             _gameOverPanel.SetActive(false);
@@ -53,11 +56,6 @@ namespace Assets.Code.Sources.GameSceneUi
             _battleUiPanel.SetActive(true);
         }
 
-        private void UpdateBattleModeTexts(string teamAScore, string teamBScore)
-        {
-            _teamAScoreText.text = teamAScore;
-            _teamBScroreText.text = teamBScore;
-        }
         
         public void SetEndModeUi(string matchResultText)
         {
