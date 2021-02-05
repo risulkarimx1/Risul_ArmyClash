@@ -30,3 +30,7 @@ MonoBehaviour:
   _initAtk: 10
   _minAtk: 30
   _maxAtk: 70
+  _minMovementSpeed: 10
+  _maxMovementSpeed: 5
+  _minAtkSpeed: 1
+  _maxAtkSpeed: 2

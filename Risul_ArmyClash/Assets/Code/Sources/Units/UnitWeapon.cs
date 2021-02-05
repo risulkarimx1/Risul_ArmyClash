@@ -23,6 +23,7 @@ namespace Assets.Code.Sources.Units
         
         private void StartFiring(UnitView viewComponent, UnitSide ownSide)
         {
+            // TODO : Fix magic numbers
             var random = Random.Range(1, 3);
             Observable.Interval(TimeSpan.FromSeconds(random)).Subscribe(_ => { Fire(ownSide, viewComponent); })
                 .AddTo(viewComponent);
@@ -30,10 +31,9 @@ namespace Assets.Code.Sources.Units
 
         private void Fire(UnitSide ownSide, UnitView view)
         {
-            RaycastHit hit;
-            var postion = view.Position + view.transform.forward.normalized * 2;
-            Debug.DrawRay(postion, view.Transform.forward);
-            if (Physics.Raycast(postion, view.Transform.forward, out hit,
+            var staringPosition = view.Position + view.transform.forward.normalized * 2;
+            Debug.DrawRay(staringPosition, view.Transform.forward);
+            if (Physics.Raycast(staringPosition, view.Transform.forward, out var hit,
                 1, Constants.Constants.UnitLayer))
             {
                 _signalBus.Fire(new UnitHitSignal()

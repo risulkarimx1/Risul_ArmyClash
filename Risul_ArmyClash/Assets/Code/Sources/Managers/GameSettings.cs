@@ -19,9 +19,19 @@ namespace Assets.Code.Sources.Managers
 
         [SerializeField] private float _minHp;
         [SerializeField] private float _maxHp;
-        [Header("Attack")] [SerializeField] private float _initAtk;
+        
+        [Header("Attack")] 
+        [SerializeField] private float _initAtk;
         [SerializeField] private float _minAtk;
         [SerializeField] private float _maxAtk;
+
+        [Header("Min Movement Speed")] 
+        [SerializeField] private float _minMovementSpeed;
+        [SerializeField] private float _maxMovementSpeed;
+
+        [Header("Min Attack Speed")] 
+        [SerializeField] private float _minAtkSpeed;
+        [SerializeField] private float _maxAtkSpeed;
 
         public int GuildSizeA => _guildSizeA;
         public int GuildSizeB => _guildSizeB;
@@ -35,5 +45,10 @@ namespace Assets.Code.Sources.Managers
         public float InitAtk => _initAtk;
         public float MinAtk => _minAtk;
         public float MaxAtk => _maxAtk;
+
+        public float MinMovementSpeed => _minMovementSpeed;
+        public float MaxMovementSpeed => _maxMovementSpeed;
+        public float MinAtkSpeed => _minAtkSpeed;
+        public float MaxAtkSpeed => _maxAtkSpeed;
     }
 }

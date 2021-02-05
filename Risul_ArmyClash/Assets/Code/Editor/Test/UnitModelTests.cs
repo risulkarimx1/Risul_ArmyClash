@@ -4,10 +4,10 @@ using Assets.Code.Sources.Managers;
 using Assets.Code.Sources.Units;
 using Assets.Code.Sources.Units.UnitConfiguration;
 using NUnit.Framework;
-using Sources.Units.UnitConfiguration;
+using UniRx;
 using Zenject;
 
-namespace Code.Editor.Test
+namespace Assets.Code.Editor.Test
 {
     [TestFixture]
     public class UnitModelTests : ZenjectUnitTestFixture
@@ -15,6 +15,7 @@ namespace Code.Editor.Test
         [SetUp]
         public void Initialize()
         {
+            Container.Bind<CompositeDisposable>().AsSingle();
             Container.Bind<ColorToShapeMappingData>().FromScriptableObjectResource(Constants.ColorToShapeMapPath)
                 .AsSingle();
             Container.Bind<UnitConfigurationsData>().FromScriptableObjectResource(Constants.UnitConfigurationDataPath)
@@ -40,23 +41,61 @@ namespace Code.Editor.Test
         }
 
         [Test]
-        public void Blue_Cube_Small_Has_Hp_150_Attack_15()
+        public void Blue_Cube_Small_Has_Hp_150_Attack_30()
+        {
+            var disposable = CreateSmallBlueCube(out var unitModel);
+            
+            Assert.AreEqual(150, unitModel.Hp.Value);
+            Assert.AreEqual(30, unitModel.Atk.Value);
+            disposable.Dispose();
+        }
+
+        [Test]
+        public void MovementSpeedInterpolatesFrom_10_to_5_ForHpValue_150_to_450()
+        {
+            var disposable = CreateSmallBlueCube(out var unitModel);
+        
+            unitModel.Hp.Value = 450;
+            var movementSpeed = unitModel.MovementSpeed;
+            Assert.AreEqual(5, movementSpeed);
+
+            unitModel.Hp.Value = 150;
+            movementSpeed = unitModel.MovementSpeed;
+            Assert.AreEqual(10, movementSpeed);
+            
+            disposable.Dispose();
+        }
+
+        [Test]
+        public void AttackSpeedInterpolates_From_1_to_2_For_AtkValue_from_30_70()
+        {
+            var disposable = CreateSmallBlueCube(out var unitModel);
+            
+            unitModel.Atk.Value = 30;
+            var attackSpeed = unitModel.AttackSpeed;
+            Assert.AreEqual(1, attackSpeed);
+
+            unitModel.Atk.Value = 70;
+            attackSpeed = unitModel.AttackSpeed;
+            Assert.AreEqual(2, attackSpeed);
+            
+            disposable.Dispose();
+        }
+        
+        private CompositeDisposable CreateSmallBlueCube(out UnitModel unitModel)
         {
             var unitConfigurationsData = Container.Resolve<UnitConfigurationsData>();
             var colorMapDataAccess = Container.Resolve<UnitColorToShapeDataAccess>();
+            var disposable = Container.Resolve<CompositeDisposable>();
+
             var gameSettings = Container.Resolve<GameSettings>();
-            
+
             var blueColorModel = unitConfigurationsData.ColorModels.FirstOrDefault(c => c.ColorType == ColorType.Blue);
             var smallSizeModel = unitConfigurationsData.SizeModels.FirstOrDefault(s => s.SizeType == SizeType.Small);
             var cubeShapeModel = unitConfigurationsData.ShapeModels.FirstOrDefault(s => s.ShapeType == ShapeType.Cube);
-            var unitModel = new UnitModel(blueColorModel, cubeShapeModel, smallSizeModel, colorMapDataAccess, gameSettings.InitHp, gameSettings.InitAtk);
+            unitModel = new UnitModel(blueColorModel, cubeShapeModel, smallSizeModel, colorMapDataAccess, gameSettings, disposable);
             unitModel.Configure();
-            
-            var attack = unitModel.Atk;
-            var hp = unitModel.Hp;
-
-            Assert.AreEqual(hp.Value, 150);
-            Assert.AreEqual(attack.Value, 30);
+            return disposable;
         }
 
         [TearDown]

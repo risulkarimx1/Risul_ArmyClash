@@ -1,4 +1,6 @@
-﻿using Assets.Code.Sources.Units.UnitConfiguration;
+﻿using Assets.Code.Sources.Managers;
+using Assets.Code.Sources.Units.UnitConfiguration;
+using Assets.Code.Sources.Util;
 using UniRx;
 
 namespace Assets.Code.Sources.Units
@@ -16,6 +18,7 @@ namespace Assets.Code.Sources.Units
         private readonly ShapeModel _shapeModel;
         private readonly SizeModel _sizeModel;
         private readonly UnitColorToShapeDataAccess _colorToShapeMapAccess;
+        private readonly CompositeDisposable _disposable;
 
         public ReactiveProperty<float> Hp
         {
@@ -37,15 +40,33 @@ namespace Assets.Code.Sources.Units
         public SizeModel SizeModel => _sizeModel;
 
         public UnitModel(ColorModel colorModel, ShapeModel shapeModel, SizeModel sizeModel,
-            UnitColorToShapeDataAccess colorToShapeMapAccess, float initHp, float initAtk)
+            UnitColorToShapeDataAccess colorToShapeMapAccess, GameSettings settings, CompositeDisposable disposable)
         {
             _colorModel = colorModel;
             _shapeModel = shapeModel;
             _sizeModel = sizeModel;
             _colorToShapeMapAccess = colorToShapeMapAccess;
+            _disposable = disposable;
 
-            _hp = new ReactiveProperty<float>(initHp);
-            _atk = new ReactiveProperty<float>(initAtk);
+            _hp = new ReactiveProperty<float>(settings.InitHp);
+            _atk = new ReactiveProperty<float>(settings.InitAtk);
+
+            _hp.Subscribe(value =>
+            {
+                _movementSpeed = value.Remap(
+                    settings.MinHp, 
+                    settings.MaxHp, 
+                    settings.MinMovementSpeed,
+                    settings.MaxMovementSpeed);
+            }).AddTo(disposable);
+
+            _atk.Subscribe(value =>
+            {
+                _attackSpeed = value.Remap(settings.MinAtk, 
+                    settings.MaxAtk, 
+                    settings.MinAtkSpeed, 
+                    settings.MaxAtkSpeed);
+            }).AddTo(disposable);
         }
 
         public void Configure()

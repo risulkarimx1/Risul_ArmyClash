@@ -1,19 +1,24 @@
 ﻿using Assets.Code.Sources.Managers;
+using UniRx;
 using UnityEngine;
 
 namespace Assets.Code.Sources.Units.UnitConfiguration
 {
-    public class RandomUnitConfigGenerator: IUnitConfigGenerator
+    public class RandomUnitConfigGenerator : IUnitConfigGenerator
     {
         private readonly UnitConfigurationsData _configData;
         private readonly UnitColorToShapeDataAccess _colorToShapeMapDataAccess;
         private readonly GameSettings _gameSettings;
+        private readonly CompositeDisposable _disposable;
 
-        public RandomUnitConfigGenerator(UnitConfigurationsData configData, UnitColorToShapeDataAccess colorToShapeMapDataAccess, GameSettings gameSettings)
+        public RandomUnitConfigGenerator(UnitConfigurationsData configData,
+            UnitColorToShapeDataAccess colorToShapeMapDataAccess,
+            GameSettings gameSettings, CompositeDisposable disposable)
         {
             _configData = configData;
             _colorToShapeMapDataAccess = colorToShapeMapDataAccess;
             _gameSettings = gameSettings;
+            _disposable = disposable;
         }
 
         private ColorModel GetRandomColor =>
@@ -32,7 +37,12 @@ namespace Assets.Code.Sources.Units.UnitConfiguration
 
         public UnitModel GetRandomModel()
         {
-            return new UnitModel(GetRandomColor, GetRandomShape, GetRandomSize, _colorToShapeMapDataAccess, _gameSettings.InitHp, _gameSettings.InitAtk);
+            return new UnitModel(GetRandomColor,
+                GetRandomShape,
+                GetRandomSize,
+                _colorToShapeMapDataAccess,
+                _gameSettings,
+                _disposable);
         }
     }
 }

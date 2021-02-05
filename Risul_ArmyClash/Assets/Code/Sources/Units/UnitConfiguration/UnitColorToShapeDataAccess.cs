@@ -7,7 +7,8 @@
         public UnitColorToShapeDataAccess(ColorToShapeMappingData colorToShapeMappingData)
         {
             _colorToShapeMappingData = colorToShapeMappingData;
-            // Make it call from other thread
+            
+            // TODO: Make it async... Create Method pattern
             _ = _colorToShapeMappingData.LoadAsync(Constants.Constants.ColorMapJsonFilePath);
         }
 

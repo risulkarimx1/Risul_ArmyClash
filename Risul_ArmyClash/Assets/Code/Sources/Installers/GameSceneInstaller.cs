@@ -7,6 +7,7 @@ using Assets.Code.Sources.Signals;
 using Assets.Code.Sources.Units;
 using Assets.Code.Sources.Units.Factory;
 using Assets.Code.Sources.Units.UnitConfiguration;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -19,6 +20,9 @@ namespace Assets.Code.Sources.Installers
         
         public override void InstallBindings()
         {
+            // Global Composite disposable 
+            Container.Bind<CompositeDisposable>().AsSingle();
+            
             // Install Signal
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<GameStateChangeSignal>();
