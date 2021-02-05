@@ -24,7 +24,9 @@
 <li> <b>MenuSceneInstaller:</b> Menu Related dependency container
 <li> <b>Game Scene Installer:</b> Hosts signals, factory for game scene.
 <br>
-![Alt text](Picture1.png?raw=true "Installers")
+<p align="center">
+  <img src="Picture1.png" width="350" alt="Entry Point">
+</p>
 
 ## Tools for Designers:
 ### Game Settings
@@ -32,7 +34,9 @@
 <li> Directory: Assets/Resources/Data/Settings/GameSettings
 <li> To edit Unit Placement add and edit value for Hp, Atk, Size of Guilds etc
 <br>
-![Alt text](Picture2.png?raw=true "Installers")
+<p align="center">
+  <img src="Picture2.png" width="350" alt="Game Settings">
+</p>
   
 ### Unit Configuration Data
 <li> Directory: Assets/Resources/Data/UnitConfigs/UnitConfigurationData
@@ -40,7 +44,9 @@
 <li> Editing can be done easily from Scriptable Object
 <li> To add new Color, Shape, and Size, we need to add new Enums to specific model type
 <br>
-![Alt text](Picture3.png?raw=true "Installers")
+<p align="center">
+  <img src="Picture3.png" width="350" alt="Unit Configuration Data">
+</p>
   
 ### ColorToShapeMap
 Directory: Assets/Resources/Data/UnitConfigs/ColorToShapeMap 
@@ -49,12 +55,16 @@ The tool with the custom editor to assign values for Specific Color and Specific
 <li> <b>Expand Table:</b> When a new enum is added for color, shape, and size, Expand table is used to add more rows keeping the old data.
 <li> <b>Save:</b> Saves the data in JSON file (ColorMap.json) in the same folder in resources. 
 <br>
-![Alt text](Picture4.png?raw=true "Installers")
+<p align="center">
+  <img src="Picture4.png" width="350" alt="Color To Shape Map">
+</p>
   
 ## Unit Tests
 
 <li> Checks instance of a unit of specific color, size and shape to calculate attack, hp, movement speed and attack speed
 <li> Checks the availability of the settings files in data folder
-![Alt text](Picture5.png?raw=true "Installers")
+<p align="center">
+  <img src="Picture5.png" width="350" alt="Unit Tests">
+</p>
 
 
