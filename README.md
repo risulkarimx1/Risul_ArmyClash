@@ -1,5 +1,9 @@
 # Army Clash Clone with Job Systems
 
+<p align="center">
+  <img src="Screenshots/Gameplay.gif" width="350" alt="Game Screenshot">
+</p>
+
 ## Key Features:<br>
 <ls>
 <li> Dependency Injection Framework (Zenject) to resolve dependencies.<br>
@@ -25,7 +29,7 @@
 <li> <b>Game Scene Installer:</b> Hosts signals, factory for game scene.
 <br>
 <p align="center">
-  <img src="Picture1.png" width="350" alt="Entry Point">
+  <img src="Screenshots/Picture1.png" width="350" alt="Entry Point">
 </p>
 
 ## Tools for Designers:
@@ -35,7 +39,7 @@
 <li> To edit Unit Placement add and edit value for Hp, Atk, Size of Guilds etc
 <br>
 <p align="center">
-  <img src="Picture2.png" width="350" alt="Game Settings">
+  <img src="Screenshots/Picture2.png" width="350" alt="Game Settings">
 </p>
   
 ### Unit Configuration Data
@@ -45,7 +49,7 @@
 <li> To add new Color, Shape, and Size, we need to add new Enums to specific model type
 <br>
 <p align="center">
-  <img src="Picture3.png" width="350" alt="Unit Configuration Data">
+  <img src="Screenshots/Picture3.png" width="350" alt="Unit Configuration Data">
 </p>
   
 ### ColorToShapeMap
@@ -56,7 +60,7 @@ The tool with the custom editor to assign values for Specific Color and Specific
 <li> <b>Save:</b> Saves the data in JSON file (ColorMap.json) in the same folder in resources. 
 <br>
 <p align="center">
-  <img src="Picture4.png" width="350" alt="Color To Shape Map">
+  <img src="Screenshots/Picture4.png" width="350" alt="Color To Shape Map">
 </p>
   
 ## Unit Tests
@@ -64,7 +68,6 @@ The tool with the custom editor to assign values for Specific Color and Specific
 <li> Checks instance of a unit of specific color, size and shape to calculate attack, hp, movement speed and attack speed
 <li> Checks the availability of the settings files in data folder
 <p align="center">
-  <img src="Picture5.png" width="350" alt="Unit Tests">
+  <img src="Screenshots/Picture5.png" width="350" alt="Unit Tests">
 </p>
-
 
