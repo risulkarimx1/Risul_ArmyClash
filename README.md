@@ -17,7 +17,7 @@
 
 ## Design Choice:
 
-<li> SOID Principle
+<li> SOLID Principle
 <li> Event Driven based on Domain of classes
 <li> Less MonoBehaviours (only 4) without any update method called
 <li> Testable Architecture
